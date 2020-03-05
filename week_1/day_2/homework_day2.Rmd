@@ -1,0 +1,34 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+stock_prices <- c(23, 27, 23, 21, 34, 24, 25, 30, 37, 30)
+day_of_week <-c( "mon", "tue", "wed", "thurs", "fri")
+rep(day_of_week, 2)
+```
+
+```{r}
+day_of_week <- c("mon", "tue", "wed", "thurs", "fri")
+day_of_week_factor <- as.factor(day_of_week)
+day_of_week_factor
+```
+```{r}
+named_stock_prices <- c("mon", "tue", "wed", "thu", "fri")
+named_stock_prices
+
+```
+
+```{r}
+stock_data <- data.frame(stock_prices = stock_prices, day_of_week = day_of_week)
+View(stock_data)
+```
+
+```{r}
+stock_list <- list(stock_prices = stock_prices, day_of_week = day_of_week, stock_data = stock_data)
+stock_list
+
+```
+
