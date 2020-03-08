@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1583446102386.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1120439661",
+    "id" : "E48A1931",
+    "lastKnownWriteTime" : 1583253092,
+    "last_content_update" : 1583253092,
+    "path" : "~/CodeClan/dg1_classnotes/week_01/day_1/7_homework_submit_to_git/submit_to_git_answers.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "14,106",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

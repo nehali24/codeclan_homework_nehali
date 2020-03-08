@@ -1,0 +1,4 @@
+"0","```r
+stock_data <- data.frame(stock_prices = stock_prices, day_of_week = day_of_week)
+View(stock_data)
+```"

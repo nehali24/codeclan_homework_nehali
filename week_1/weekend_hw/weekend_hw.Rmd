@@ -1,0 +1,229 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+#MVP
+
+2.2.1-> Write a function which multiples all numbers by 15 and adds 4.
+
+```{r}
+multiply_15_add_4 <- function(x){
+  return(x*15+4)
+}
+
+```
+
+```{r}
+multiply_15_add_4 ( x = 1 )
+multiply_15_add_4( x = 2 )
+multiply_15_add_4( x = 3)
+```
+
+2.2.2 -> Write a function that returns “bird”, if the input is “goose”, “duck” or “pigeon”, and returns “not bird” for all other input.
+
+```{r}
+is_bird  <- function(x) 
+  {
+  if ( x%in%  c("goose", "duck", "pigeon")) 
+    {
+    return("is_bird")
+
+} else {
+  return("not_bird")
+}
+}
+```
+
+2.2.3
+
+```{r}
+multiply_by_10 <- function(x)
+{
+  if ( is.numeric(x)) {
+       return(x * 10)
+  } else {
+    return("invalid output")
+  }
+}
+```
+```{r}
+multiply_by_10( x=2 )
+multiply_by_10( x=7 )
+multiply_by_10( x=5.3)
+multiply_by_10( x = "a" )
+```
+
+2.3 ifelse, recode, when
+
+2.3.1
+```{r,echo = TRUE}
+# ifelse
+sizes <- c(13, 15, 10, 8, 22)
+
+ifelse(sizes > 10, "big", "small")
+
+#case_when
+dplyr::case_when (sizes > 10 ~ "big",
+  TRUE ~ "small")
+
+ #recode
+
+dplyr :: recode(sizes, '10' = "small", '8' = "small", default = "big")
+
+```
+
+2.3.2
+
+```{r}
+fruit <- c("apple", "apple", "banana", "cherry", "cherry")
+
+```
+#ifelse
+```{r}
+animals <- c("alpaca", "bonobo", "chipmunk")
+animals <- ifelse(fruit == "apple", "alpaca", fruit)
+animals <- ifelse(fruit == "banana", "bonobo", animals)
+animals <- ifelse(fruit == "cherry", "chipmunk", animals)
+animals
+```
+
+
+#case when
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+```
+
+```{r}
+animals <- c("alpaca", "bonobo", "chipmunk")
+animals <- case_when(
+  fruit == "apple" ~ "alpaca",
+                     fruit == "banana" ~ "bonobo",
+                     fruit == "cherry" ~ "chipmunk" )
+animals
+```
+
+2.3.3 
+
+```{r}
+wife_age <- c(29L, 30L, 36L, 31L, 22L)
+husband_age <- c(28L, 35L, 32L, 31L, 29L)
+```
+#ifelse
+```{r}
+ifelse(wife_age > husband_age, "wife older", ifelse(wife_age < husband_age, "husband older", "same_age"))
+```
+#case_when
+
+```{r}
+case_when(wife_age > husband_age ~ "wife older",
+          wife_age < husband_age ~ "husband older",
+          wife_age == husband_age ~ "same age"
+          )
+```
+
+#recode
+
+```{r}
+difference <- sign( husband_age - wife_age)
+recode(difference, '-1' = "wife older", '0' = "same age", '1' = "husband older")
+```
+
+
+2.4 loops
+
+```{r}
+my_list <- list(
+  4,
+  "apple",
+  10.5,
+  c("is", "an", "apple"),
+  "apple",
+  c("i", "like", "apples"),
+  8
+)
+my_list
+```
+Use a loop to print out every element of `my_list` which is of type `character`. Decide if you need a `for` loop or a `while` loop.
+
+```{r}
+
+for(element in my_list) {
+  if(is.character(element)) {
+    print(element)
+  }
+}
+```
+2.4.2
+Once again write a loop that prints out character elements. This time if the element has a length() greater than one, paste() all the elements in that vector together into one big character vector.
+
+```{r}
+for(element in my_list) {
+  if(is.character(element)) {
+    
+    if(length(element) > 1) {
+      
+      print(paste(element, collapse = " "))
+            } else {
+              print(element)
+            }
+      }
+   }
+```
+
+EXTENSION
+
+Write code that prints a multiplication table for numbers up to 12. i.e. there will be 12 rows and 12 columns, and each element should be the row number multiplied by the column number.
+
+```{r}
+matrix(1:12)  %*%  t(matrix(1:12))
+
+matrix
+```
+3.2. Write a function that takes a vector, and creates a text art histogram, like the one below.
+
+You may want to use the function `cat()`. This is similar to `print()`, but prints directly, without vector markers. You can also include newlines `"\n"` when using `cat()`.
+
+```
+1 | ***
+2 | *
+3 | *******
+4 | ****
+5 | **
+```
+
+```{r}
+create_histogram <- function(x) {
+  
+  distinct <- sort(unique(x))
+  
+  for (i in distinct){
+    
+    count <- sum(x == i)
+    cat(i)
+    cat('|')
+    cat(rep("*", count))
+    cat("\n")
+    
+  }
+}
+x
+```
+
+3.3
+Write a guessing game where the user has to guess a secret number. After every guess the program tells the user whether their number was too large or too small. At the end the number of tries needed should be printed.
+
+To take user input, use the function readline(). Whenever R encounters readline, the code will stop, and the value assigned from readline will depend on the value that the user inputs. For more information see the help file.
+
+```{r}
+
+```
+
+
+
+
+
+
+
+

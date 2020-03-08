@@ -1,0 +1,131 @@
+---
+title: "Homework -- Submit to Git - Answers"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+    css: ../../../styles.css
+  pdf_document: default
+---
+
+# MVP 
+
+* Create a folder in the directory where you're keeping your work files. Call it `codeclan_homework_yourname` (insert your name as something like `DelMiddlemiss`).
+
+```
+mkdir codeclan_homework_yourname
+```
+
+* Initialise a Git repository in the folder
+
+```
+cd codeclan_homework_yourname
+git init
+```
+* Create a `week_01` folder and `cd` into it, then create a `day_1` folder and `cd` into that.
+
+```
+mkdir week_01
+cd week_01
+mkdir day_01
+cd day_01
+```
+
+* Create a couple of `.txt` files in the folder
+
+```
+touch first.txt
+atom first.txt
+```
+*Now edit the file in atom then close atom*
+
+```
+touch second.txt
+atom second.txt
+```
+*Now edit the file in atom then close atom*
+
+* Stage the files
+
+```
+git add .
+```
+* Commit the files
+
+```
+git commit -m "Commit message goes here"
+```
+
+* Make a change to each file
+
+```
+atom first.txt
+```
+*Now edit the file in atom then close atom*
+
+```
+atom second.txt
+```
+*Now edit the file in atom then close atom*
+
+
+* Commit the changes
+
+```
+git commit -m "Commit message about your new changes"
+```
+
+Working remotely at [GitHub](https://github.com/):
+
+* Create a new repository -- call it `codeclan_homework_yourname` (again, insert your name as something like `DelMiddlemiss`)
+
+Back on your computer:
+
+* Add the GitHub remote to your local
+* Push to the remote repository
+
+```
+git remote add origin https://github.com/yourusename/codeclan_homework_yourname.git
+git push -u origin master
+```
+
+# Extension
+
+* Create a `.gitignore` file
+
+```
+touch .gitignore
+```
+* Tell it to ignore a file called `file_to_ignore.txt`
+
+```
+atom .gitignore
+```
+*Now edit the file in atom, write the line: file_to_ignore.txt, then close atom*
+
+* Stage it, commit it and push it to the remote
+
+```
+git add .
+git commit -m "Added a gitignore"
+git push
+```
+* Create `file_to_ignore.txt` 
+
+```
+touch file_to_ignore.txt
+```
+* Add some text to it
+
+```
+atom file_to_ignore.txt
+```
+*Now edit the file in atom then close atom*
+
+* Use `git status` to check that `file_to_ignore.txt` isn't being tracked by Git
+
+```
+git status
+```

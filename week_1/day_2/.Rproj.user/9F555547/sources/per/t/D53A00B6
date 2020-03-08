@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1583445539818.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3798755491",
+    "id" : "D53A00B6",
+    "lastKnownWriteTime" : 1583363328,
+    "last_content_update" : 1583363328,
+    "path" : "~/CodeClan/dg1_classnotes/week_01/day_3/4_getting_started_in_r_lab/getting_started_with_R_lab_answers.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "95,6",
+        "scrollLine" : "95"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

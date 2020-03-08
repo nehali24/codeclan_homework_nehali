@@ -1,0 +1,8 @@
+"0","```r
+day_of_week <- c(\"mon\", \"tue\", \"wed\", \"thurs\", \"fri\")
+day_of_week_factor <- as.factor(day_of_week)
+day_of_week_factor
+```"
+"1","[1] mon   tue   wed   thurs fri  
+Levels: fri mon thurs tue wed
+"

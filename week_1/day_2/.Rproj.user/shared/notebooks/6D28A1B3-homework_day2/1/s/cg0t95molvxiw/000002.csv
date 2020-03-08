@@ -1,0 +1,8 @@
+"0","```r
+stock_prices <- c(23, 27, 23, 21, 34, 24, 25, 30, 37, 30)
+day_of_week <-c( \"mon\", \"tue\", \"wed\", \"thurs\", \"fri\")
+rep(day_of_week, 2)
+```"
+"1"," [1] \"mon\"   \"tue\"   \"wed\"   \"thurs\" \"fri\"   \"mon\"  
+ [7] \"tue\"   \"wed\"   \"thurs\" \"fri\"  
+"

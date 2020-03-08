@@ -1,0 +1,6 @@
+"0","```r
+named_stock_prices <- c(\"mon\", \"tue\", \"wed\", \"thu\", \"fri\")
+named_stock_prices
+```"
+"1","[1] \"mon\" \"tue\" \"wed\" \"thu\" \"fri\"
+"

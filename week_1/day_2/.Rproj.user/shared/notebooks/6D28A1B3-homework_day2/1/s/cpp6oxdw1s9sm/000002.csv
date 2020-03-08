@@ -1,0 +1,12 @@
+"0","```r
+stock_list <- list(stock_prices = stock_prices, day_of_week = day_of_week, stock_data = stock_data)
+stock_list
+```"
+"1","$stock_prices
+ [1] 23 27 23 21 34 24 25 30 37 30
+
+$day_of_week
+[1] \"mon\"   \"tue\"   \"wed\"   \"thurs\" \"fri\"  
+
+$stock_data
+"
