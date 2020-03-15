@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1583900862819.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3022351491",
+    "id" : "2EF20DFA",
+    "lastKnownWriteTime" : 1583933380,
+    "last_content_update" : 1583933380955,
+    "path" : "~/CodeClan/dg1_classnotes/week_02/day_2/1_creating_writing_db/creating_writing_db.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "47,23",
+        "scrollLine" : "20"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

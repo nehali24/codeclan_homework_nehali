@@ -1,0 +1,7 @@
+"0","```r
+keyring_unlock(\"local\")
+username <- key_get(\"postgresql_username\", keyring = \"local\") 
+password <- key_get(\"postgresql_password\", keyring = \"local\")
+keyring_lock(\"local\")
+
+```"

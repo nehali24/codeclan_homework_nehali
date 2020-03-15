@@ -1,0 +1,5 @@
+"0","data <- dbGetQuery(db_connect, statement = ""select t.name as team_name, count(e.id) as num_employees"
+"0","FROM teams as t"
+"0","LEFT JOIN employees as e ON t.id=e.team_id"
+"0","GROUP BY t.id"
+"0","ORDER BY num_employees DESC"")"

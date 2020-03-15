@@ -1,0 +1,30 @@
+---
+title: "w2-d1-hw"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#MVP
+1. Read in the state_income_data.csv file using the appropriate function.
+```{r}
+library(readr)
+state_income <- read_csv("state_income_data.csv")
+state_income
+
+```
+
+3. Read in the cars.csv file and use the col_types() function to ensure you load in:
+
+X1 as character
+mpg, cyl, disp, hp as double
+vs as logical
+```{r}
+cars <- read_csv("cars.csv")
+cars
+## parsed with column
+```
+
+

@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1583931970220.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1566622898",
+    "id" : "59C688AD",
+    "lastKnownWriteTime" : 1583930220,
+    "last_content_update" : 1583930220,
+    "path" : "~/CodeClan/dg1_classnotes/week_02/day_3/3_sql_lab/sql_lab.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "16,0",
+        "scrollLine" : "16"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

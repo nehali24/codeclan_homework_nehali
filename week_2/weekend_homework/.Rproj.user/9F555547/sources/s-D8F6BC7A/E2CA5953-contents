@@ -1,0 +1,104 @@
+---
+title: "weekend_hw"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(keyring)
+library(RPostgreSQL)
+
+```
+
+```{r}
+keyring_unlock("local")
+username <- key_get("postgresql_username", keyring = "local") 
+password <- key_get("postgresql_password", keyring = "local")
+keyring_lock("local")
+
+```
+
+
+
+```{r}
+
+db_connect <- dbConnect(drv = PostgreSQL(), user = username, password = password, dbname = 'acme_employees', host = 'localhost')
+
+```
+
+```{r}
+data <- dbGetQuery(db_connect, statement = "SELECT * FROM employees")
+
+```
+/*Retrieve the records for all employees again, but this time add a field full_name containing the first_name and last_name of each employee separated by a space.*/
+
+```{r}
+data <- dbGetQuery(db_connect, statement = "SELECT id, first_name, last_name, CONCAT(first_name, ' ', last_name) AS full_name FROM employees")
+
+```
+
+/*Retrieve the details of all employees again, but this time listing their team name (as team_name), rather than their team_id.*/
+
+```{r}
+dbGetQuery(db_connect, statement =
+"SELECT e.*, t.name
+           FROM employees AS e LEFT JOIN teams AS t
+           ON e.team_id = t.id")
+```
+
+
+
+/*Do a breakdown of the number of employees per team (here we want two columns: team_name and num_employees). Order the table in decreasing number of employees. Include all teams, even if they have no employees. */
+
+
+```{r}
+data <- dbGetQuery(db_connect, statement = "select t.name as team_name, count(e.id) as num_employees
+FROM teams as t
+LEFT JOIN employees as e ON t.id=e.team_id
+GROUP BY t.id
+ORDER BY num_employees DESC")
+```
+
+
+
+/*AcmeCorp management want to send an email survey to each of their employees. However, they are worried that some of the employees may not receive the email either because their email addresses may be invalid (in that they don’t contain an ‘@’ symbol), or they may not have a stored email address at all. Can you find all these employees?*/
+
+
+```{r}
+data <- dbGetQuery(db_connect, statement = "select first_name
+FROM employees
+WHERE email = 'NULL' OR EMAIL NOT LIKE '%@%' ")
+```
+
+/*EXTENSIONS*/
+
+/*Which of the employees provided the most recent feedback? What was the date of this feedback?*/
+
+```{r}
+data <- dbGetQuery(db_connect, statement = "select *
+FROM feedbacks
+ORDER BY date DESC
+LIMIT 1")
+```
+
+/*You are chatting with one of the AcmeCorp employees, and she mentions that one of the teams in the corporation has some employees whose first_name contains only their first initial, e.g. “D” instead of “Dionne”, “C” instead of “Charles” (they had a really formal administrator a few years back). Can you find the name of the team that she is most likely referring to (i.e. which team has the highest number of employees with single initial first_names)`?*/
+```{r}
+data <- dbGetQuery(db_connect, statement = "select e.*, t.name
+FROM employees e
+JOIN teams t ON e.team_id=t.id
+WHERE e.first_name like '_' "
+)
+```
+
+2.2
+```{r}
+data <- dbGetQuery(db_connect, statement = "select f.message as message, e.id as employee, t.id as team
+from feedbacks f
+join employees e on e.id=f.employee_id
+join teams t on t.id=e.team_id"
+)
+```
+

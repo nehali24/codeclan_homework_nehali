@@ -1,0 +1,3 @@
+"0",""
+"0","db_connect <- dbConnect(drv = PostgreSQL(), user = username, password = password, dbname = 'acme_employees', host = 'localhost')"
+"0",""

@@ -1,0 +1,4 @@
+"0","data <- dbGetQuery(db_connect, statement = ""select *"
+"0","FROM feedbacks"
+"0","ORDER BY date DESC"
+"0","LIMIT 1"")"

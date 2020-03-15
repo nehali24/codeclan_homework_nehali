@@ -1,0 +1,62 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# the RPostgreSQL package contains the specific drivers for connecting to PostgreSQL databases
+library(RPostgreSQL)
+# first, let's get our credentials from the local keyring
+keyring_unlock(keyring = "local")
+username <- key_get(service = "postgresql_username", keyring = "local")
+password <- key_get(service = "postgresql_password", keyring = "local")
+keyring_lock(keyring = "local")
+# next, we create a connection to the database
+my_db_connection <- dbConnect(drv = PostgreSQL(max.con = 1), user = username, password = password, dbname='omni_employees', host='localhost')
+
+```{r}
+keyring_unlock(keyring = "remote")
+```
+```{r}
+username <- key_get(service = "omni_postgresql_username", keyring = "remote")
+```
+```{r}
+password <- key_get(service = "omni_postgresql_password", keyring = "remote")
+```
+```{r}
+keyring_lock(keyring = "remote")
+```
+```{r}
+my_db_connection <- dbConnect(drv = PostgreSQL(max.con = 1), user = username, password = password, dbname='mvhbdgdk', host='34.245.37.126')
+```
+
+```{r}
+data <- dbGetQuery(conn = my_db_connection,
+                   statement = 
+                     "SELECT * FROM wrestlers"
+                   )
+```
+
+```{r}
+dbListTables(conn = my_db_connection)
+```
+£# gives names of all,the cols
+```{r}
+dbListFields(conn = my_db_connection, name = "wrestlers")
+```
+
+```{r}
+
+```
+
+
+
+#CLOSE DB CONNECTION
+```{r}
+
+  dbDisconnect(my_db_connection)
+
+```
+
+
+
+

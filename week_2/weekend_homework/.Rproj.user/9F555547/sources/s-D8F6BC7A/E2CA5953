@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1584098844548.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "E2CA5953",
+    "lastKnownWriteTime" : 1584279190,
+    "last_content_update" : 1584279190295,
+    "path" : "~/CodeClan/codeclan_homework/week_2/weekend_homework/wekkend_hw.Rmd",
+    "project_path" : "wekkend_hw.Rmd",
+    "properties" : {
+        "cursorPosition" : "104,0",
+        "last_setup_crc32" : "D8F6BC7Abb338d19",
+        "scrollLine" : "90",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

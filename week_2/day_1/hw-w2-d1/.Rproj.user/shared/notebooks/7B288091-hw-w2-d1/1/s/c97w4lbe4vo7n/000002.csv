@@ -1,0 +1,12 @@
+"0","cars <- read_csv(""cars.csv"")"
+"2","Parsed with column specification:
+cols(
+  X1 = [31mcol_character()[39m,
+  mpg = [32mcol_double()[39m,
+  cyl = [32mcol_double()[39m,
+  disp = [32mcol_double()[39m,
+  hp = [32mcol_double()[39m,
+  vs = [32mcol_double()[39m
+)
+"
+"0","cars"

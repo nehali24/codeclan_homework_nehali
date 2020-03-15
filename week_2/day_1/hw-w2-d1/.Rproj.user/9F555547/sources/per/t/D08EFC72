@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1583932334789.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2385197056",
+    "id" : "D08EFC72",
+    "lastKnownWriteTime" : 1583930220,
+    "last_content_update" : 1583930220,
+    "path" : "~/CodeClan/dg1_classnotes/week_02/day_3/1_table_relationships/table_relationships.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "32,0",
+        "scrollLine" : "29"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

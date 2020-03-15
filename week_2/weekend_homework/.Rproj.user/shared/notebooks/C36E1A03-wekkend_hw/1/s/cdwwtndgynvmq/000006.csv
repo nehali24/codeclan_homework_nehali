@@ -1,0 +1,4 @@
+"0","dbGetQuery(db_connect, statement ="
+"0","""SELECT e.*, t.name"
+"0","           FROM employees AS e LEFT JOIN teams AS t"
+"0","           ON e.team_id = t.id"")"

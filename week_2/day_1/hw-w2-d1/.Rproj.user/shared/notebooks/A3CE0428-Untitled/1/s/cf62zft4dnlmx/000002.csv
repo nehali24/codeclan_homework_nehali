@@ -1,0 +1,1 @@
+"0","password <- key_get(service = ""omni_postgresql_password"", keyring = ""remote"")"

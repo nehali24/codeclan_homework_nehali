@@ -1,0 +1,5 @@
+"0","data <- dbGetQuery(db_connect, statement = ""select f.message as message, e.id as employee, t.id as team"
+"0","from feedbacks f"
+"0","join employees e on e.id=f.employee_id"
+"0","join teams t on t.id=e.team_id"""
+"0",")"

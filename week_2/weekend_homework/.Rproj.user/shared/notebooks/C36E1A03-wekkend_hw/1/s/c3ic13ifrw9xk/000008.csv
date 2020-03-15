@@ -1,0 +1,5 @@
+"0","data <- dbGetQuery(db_connect, statement = ""select e.*, t.name"
+"0","FROM employees e"
+"0","JOIN teams t ON e.team_id=t.id"
+"0","WHERE e.first_name like '_' """
+"0",")"
