@@ -56,9 +56,10 @@ dbGetQuery(db_connect, statement =
 
 ```{r}
 data <- dbGetQuery(db_connect, statement = "select t.name as team_name, count(e.id) as num_employees
-FROM teams as t
-LEFT JOIN employees as e ON t.id=e.team_id
-GROUP BY t.id
+FROM employees as e
+RIGHT JOIN teams AS t
+ ON e.team_id= t.id
+GROUP BY t.name
 ORDER BY num_employees DESC")
 ```
 
@@ -75,21 +76,24 @@ WHERE email = 'NULL' OR EMAIL NOT LIKE '%@%' ")
 
 /*EXTENSIONS*/
 
-/*Which of the employees provided the most recent feedback? What was the date of this feedback?*/
+/*2.1.Which of the employees provided the most recent feedback? What was the date of this feedback?*/
 
 ```{r}
-data <- dbGetQuery(db_connect, statement = "select *
-FROM feedbacks
-ORDER BY date DESC
+data <- dbGetQuery(db_connect, statement = "select f.message as feedback, f.date as feedback_date, e.first_name, e.last_name
+from feedbacks f
+join employees e ON f.employee_id=e.id
+ORDER BY f.date DESC
 LIMIT 1")
 ```
 
-/*You are chatting with one of the AcmeCorp employees, and she mentions that one of the teams in the corporation has some employees whose first_name contains only their first initial, e.g. “D” instead of “Dionne”, “C” instead of “Charles” (they had a really formal administrator a few years back). Can you find the name of the team that she is most likely referring to (i.e. which team has the highest number of employees with single initial first_names)`?*/
+/*.You are chatting with one of the AcmeCorp employees, and she mentions that one of the teams in the corporation has some employees whose first_name contains only their first initial, e.g. “D” instead of “Dionne”, “C” instead of “Charles” (they had a really formal administrator a few years back). Can you find the name of the team that she is most likely referring to (i.e. which team has the highest number of employees with single initial first_names)`?*/
 ```{r}
-data <- dbGetQuery(db_connect, statement = "select e.*, t.name
+data <- dbGetQuery(db_connect, statement = "select t.name, count(e.id) as no_of_emp
 FROM employees e
-JOIN teams t ON e.team_id=t.id
-WHERE e.first_name like '_' "
+LEFT JOIN teams t ON e.team_id=t.id
+WHERE e.first_name like '_'
+GROUP BY t.id
+ORDER BY no_of_emp DESC"
 )
 ```
 

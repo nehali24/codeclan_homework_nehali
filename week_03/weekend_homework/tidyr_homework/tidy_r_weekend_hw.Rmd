@@ -1,0 +1,57 @@
+---
+title: "tidy_r_weenkd_hw"
+output: html_document
+---
+
+```{r}
+women <- read.csv("women_in_gov.csv", skip = 3)
+```
+/* Some of the column names contain spaces and numbers. Fix the column names. */
+
+
+```{r}
+clean_w <- clean_names(women)
+clean_w
+
+```
+
+/* We have some columns in the data that don’t really need to be there. Confirm that the X64, Indicator.Name and Indicator.Code have the same values for all observations. If they do, remove those columns.   */
+
+```{r}
+women %>%
+unique(X1964$Indicator.Name$Indicator.Code)
+
+```
+
+
+/* QUES4. Think back to last week where we talked about wide vs long format. As the data is in wide format, it’s pretty clear to see we have a lot of missing values. Reshape the data from wide to long format, so that for each country the year column becomes a row. Name the column you put your values into (i.e. the ‘values_into’ argument) prop_women. */
+
+
+```{r}
+prop_women <- clean_w %>%
+  pivot_longer(
+    cols = x1960:x2005,
+    names_to = "prop_women",
+    values_to = "year"
+  )
+prop_women
+```
+/* 8.You’ll notice your prop_women column contains missing values. Let’s do a few things. First, let’s count how many missing values you have. Then check how many different missing values you have (e.g. how many unique ones do you have). Then decide how you will deal with them. Will you insert average imputation values, most common imputation values, or use the multiple imputation method? Explain your decision. Then fix the missing values.*/
+
+```{r}
+prop_women %>%
+  filter(is.na(prop_women))
+
+```
+
+/*9.   Create a boxplot to see if there are any outliers in the proportion of women. */
+
+
+```{r}
+boxplot(prop_women)
+```
+
+```{r}
+
+```
+
