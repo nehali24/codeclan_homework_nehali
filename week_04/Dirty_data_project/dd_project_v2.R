@@ -1,0 +1,99 @@
+---
+  title: "dd_project_v2"
+author: "nehali"
+date: "24/03/2020"
+output: html_document
+---
+  ```{r}
+library(tidyverse)
+library(janitor)
+
+```
+
+```{r}
+decathalon <- readRDS("dd_project_data/decathlon.rds")
+decathalon
+```
+
+```{r}
+decathalon_clean <- clean_names(decathalon)
+decathalon_clean
+
+```
+
+```{r}
+decathalon_reform <-decathalon_clean %>%
+  rownames_to_column("surname") %>%
+  rename(
+    run_100m = x100m,
+    rum_400m = x400m,
+    hurdle_110m = x110m_hurdle,
+    run_1500m = x1500m,
+    javelin = javeline
+  ) %>%
+  mutate(
+    surname = tolower(surname),
+    competition = as.character(competition)
+  ) %>%
+  pivot_longer(run_100m:run_1500m, names_to = "event", values_to = "score")
+
+
+```
+
+# writing clean data to csv
+
+```{r}
+write_csv(decathalon_reform, "clean_data/decathalon_clean.csv")
+```
+
+```{r}
+decathalon_reform <- decathalon_clean %>% rownames_to_column()
+```
+
+/* Who had the longest long jump seen in the data? */
+  
+  ```{r}
+decathalon_reform %>%
+  arrange(desc(long_jump)) %>%
+  head(1)
+
+```
+
+/*   What was the average 100m time in each competition? */
+  ```{r}
+decathalon_reform %>%
+  group_by(competition) %>%
+  summarise(avg_time = mean(x100m))
+```
+
+/*3. Who had the highest total points across both competitions? */
+  ```{r}
+decathalon_reform %>%
+  distinct(rowname, competition,points) %>%
+  group_by(rowname) %>%
+  summarise(points_total = sum(points)) %>%
+  arrange(desc(points_total)) %>%
+  head(1)
+```
+/*4.What was the shot-put scores for the top three competitors in each competition? */
+  ```{r}
+decathalon_reform %>%
+  select(shot_put, rank, competition) %>%
+  filter(rank <= 3)
+```
+
+/*5-What was the average points for competitors who ran the 400m in less than 50 seconds vs. those than ran 400m in more than 50 seconds?*/
+  
+  
+  ```{r}
+decathalon_reform %>%
+  
+  filter(x400m < 50) %>%
+  mutate(fast_400 = x400m < 50) %>%
+  group_by(fast_400) %>%
+  summarise(avg_points = mean(points))
+
+
+
+```
+

@@ -7,8 +7,12 @@ output: html_document
 ```{r}
 library(tidyverse)
 library(janitor)
-
+library(readxl)
 ```
+
+
+
+/* TASK-1 */
 
 ```{r}
 decathalon <- readRDS("dd_project_data/decathlon.rds")
@@ -87,12 +91,57 @@ decathalon_reform %>%
 
 ```{r}
 decathalon_reform %>%
-  filter(x400m,competition) %>%
-  mutate(x400m < 50) %>%
-  group_by(x400m) %>%
+  
+  filter(x400m < 50) %>%
+  mutate(fast_400 = x400m < 50) %>%
+  group_by(fast_400) %>%
   summarise(avg_points = mean(points))
 
  
   
 ```
+
+/* TASK-4 */
+
+
+
+```{r}
+candy_2015 <- read_excel("raw_data/boing-boing-candy-2015.xlsx")
+candy_2016 <- read_excel("raw_data/boing-boing-candy-2016.xlsx")
+candy_2017 <- read_excel("raw_data/boing-boing-candy-2017.xlsx")
+```
+/* data cleaning */
+
+```{r}
+candy_2015 <- clean_names(candy_2015)
+candy_2016 <- clean_names(candy_2016)
+candy_2017 <- clean_names(candy_2017)
+```
+
+/*remove prefix from col names of candy_2017 */
+
+```{r}
+names(candy_2017) <- str_remove(names(candy_2017), "q[0-9]+_")
+```
+
+
+# Add an id number to keep track entries when make long format
+# convert to desired long format and adding columns 'gender' and 'country' so can bind to 2017
+# also add a year column so that know which year the data comes from when bind all sets together
+
+
+```{r}
+candy_2015_clean <- candy_2015 %>%
+  mutate(person_id = row_number()) %>%
+  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candy", values_to = "rating")
+mutate(year = 2015,
+       gender = NA,
+       country = NA
+       ) %>%
+  select(year, person_id, going_out = are_you_actually_going_trick_or_treat_yourself,
+         )
+```
+
+
+
 
