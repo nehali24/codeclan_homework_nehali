@@ -2,25 +2,42 @@
 title: "tidy_r_weenkd_hw"
 output: html_document
 ---
+```{r}
+library(tidyverse)
+```
+
 
 ```{r}
-women <- read.csv("women_in_gov.csv", skip = 3)
+library(janitor)
+```
+
+```{r}
+library(tidyr)
+```
+
+```{r}
+women_in_gov <- read.csv("women_in_gov.csv", skip = 3)
 ```
 /* Some of the column names contain spaces and numbers. Fix the column names. */
 
 
 ```{r}
-clean_w <- clean_names(women)
-clean_w
+women_in_gov_clean <- women_in_gov %>%
+clean_names()
+names(women_in_gov_clean)
 
 ```
 
-/* We have some columns in the data that don’t really need to be there. Confirm that the X64, Indicator.Name and Indicator.Code have the same values for all observations. If they do, remove those columns.   */
+/*q3.  We have some columns in the data that don’t really need to be there. Confirm that the X64, Indicator.Name and Indicator.Code have the same values for all observations. If they do, remove those columns.   */
 
 ```{r}
-women %>%
-unique(X1964$Indicator.Name$Indicator.Code)
-
+women_in_gov_clean %>% distinct(x1964)
+women_in_gov_clean %>% distinct(indicator_name)
+```
+/* remove redundant col  */
+```{r}
+women_in_gov2 <- women_in_gov_clean %>% 
+  select(-indicator_name, -indicator_code, -x1964)
 ```
 
 
@@ -28,30 +45,87 @@ unique(X1964$Indicator.Name$Indicator.Code)
 
 
 ```{r}
-prop_women <- clean_w %>%
-  pivot_longer(
-    cols = x1960:x2005,
-    names_to = "prop_women",
-    values_to = "year"
-  )
-prop_women
+women_in_gov_long <- women_in_gov2 %>%
+  pivot_longer(cols = starts_with("x"), 
+               names_to = "year", 
+               values_to = "prop_women")
+
+women_in_gov_long
+    
 ```
 /* 8.You’ll notice your prop_women column contains missing values. Let’s do a few things. First, let’s count how many missing values you have. Then check how many different missing values you have (e.g. how many unique ones do you have). Then decide how you will deal with them. Will you insert average imputation values, most common imputation values, or use the multiple imputation method? Explain your decision. Then fix the missing values.*/
 
 ```{r}
-prop_women %>%
-  filter(is.na(prop_women))
+women_in_gov_long %>%
+  summarise(count = sum(is.na(prop_women)))
+  
 
+```
+```{r}
+missing_gov <- women_in_gov_long %>% 
+  select(prop_women) %>% 
+  filter(is.na(prop_women))
+unique(missing_gov$prop_women)
+```
+```{r}
+women_in_gov <- women_in_gov_long %>%
+  drop_na()
 ```
 
 /*9.   Create a boxplot to see if there are any outliers in the proportion of women. */
 
 
 ```{r}
-boxplot(prop_women)
+ggplot(women_in_gov, aes(x = "prop", y = prop_women)) +
+    geom_boxplot()
+
+```
+/*10 -Calculate a zscore for each value in the prop_women column, and then add a column to show which values are the outliers     */
+```{r}
+library(outliers)
+
+# get the z-scores for each value in prop_women
+prop_zscores <- scores(women_in_gov$prop_women)
+
+# add a column with info whether the refund_value is an outlier
+is_outlier <- prop_zscores > 3 | prop_zscores < -3
+women_in_gov <- women_in_gov %>%
+  mutate(is_outlier = is_outlier)
+
+# create a table with only outliers
+women_outliers <- women_in_gov %>% 
+  filter(is_outlier == TRUE)
+
+women_no_outliers <- women_in_gov %>%
+  filter(is_outlier == FALSE)
 ```
 
 ```{r}
 
 ```
+
+/*12- Now you have your clean dataset, let’s do some summarising. Find the top 10 countries with the highest mean proportion of women in government across all the years. Then find the bottom 10.      */
+```{r}
+top_10_women <- women_no_outliers %>%
+                  arrange(country_name, country_code, year) %>%
+                  group_by(country_name, country_code) %>%
+                  summarise(mean_women = mean(prop_women)) %>%
+                  arrange(desc(mean_women)) %>%
+                  head(10)
+
+top_10_women
+```
+```{r}
+bottom_10_women <- women_no_outliers %>%
+                  arrange(country_name, country_code, year) %>%
+                  group_by(country_name, country_code) %>%
+                  summarise(mean_women = mean(prop_women)) %>%
+                  arrange(mean_women) %>%
+                  head(10)
+
+bottom_10_women
+```
+
+
+/*13-  Pick another interesting analysis question of your choosing. Tell us WHY you think it is interesting, how you did it, and what it tells us.   */
 
