@@ -13,26 +13,23 @@ tweets
 
 
 ```{r}
-#boxplot(tweets %>% group_by(favourites_count)
+
 tweets_sum <- group_by(tweets,favorite_count)
 summarise <- count(tweets_sum)
 summarise
 boxplot(summarise$favorite_count)
 ```
-/*3. .     */
+
 ```{r}
 tweets %>%
   filter(is_quote == FALSE) %>%
   summarise(total = sum(favorite_count))
 ```
-/* 4.    */
+
 ```{r}
 tweets %>% group_by(source) %>% summarise(mean(retweet_count))
 
 ```
-
-/*5.     */
-
 
 ```{r}
 tweets %>%
@@ -42,16 +39,13 @@ tweets %>%
   arrange(desc(favourite_count_total))
 
 ```
-
-/*6. . */
-
 ```{r}
 tweets_with_length <- tweets %>% mutate(string_length = str_length(text)) %>% mutate(string_length = replace_na(string_length, 0))
 tweets_with_length
 mean(tweets_with_length$string_length)
 #mean(tweets_with_length$string_length, na.rm = TRUE)
 ```
-/*7.     */
+
 ```{r}
 codeclaninfo <- read.csv("data/code_clan_info.csv", stringsAsFactors=FALSE)
 codeclaninfo
@@ -61,7 +55,7 @@ joined <- tweets %>% left_join(codeclaninfo, by = c("tweet_id" = "tweet_id"))
 joined
 
 ```
-/*8.    */
+
 ```{r}
 codeclan_hashtags <- joined%>% 
   select(tweet_id, hashtags) %>%
