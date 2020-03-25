@@ -123,25 +123,103 @@ candy_2017 <- clean_names(candy_2017)
 ```{r}
 names(candy_2017) <- str_remove(names(candy_2017), "q[0-9]+_")
 ```
-
-
-# Add an id number to keep track entries when make long format
-# convert to desired long format and adding columns 'gender' and 'country' so can bind to 2017
-# also add a year column so that know which year the data comes from when bind all sets together
-
-
+/*making data clean- adding an id no, converting in long and then adding cols 'gender' and 'country', bind to 2017 data, adding a col 'year' so that while binding we'll know from which year data is coming*/
 ```{r}
 candy_2015_clean <- candy_2015 %>%
   mutate(person_id = row_number()) %>%
-  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candy", values_to = "rating")
-mutate(year = 2015,
-       gender = NA,
-       country = NA
-       ) %>%
-  select(year, person_id, going_out = are_you_actually_going_trick_or_treat_yourself,
+  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candy", values_to = "rating")%>%
+mutate(
+  year = 2015,
+  gender = NA,
+  country = NA
+  ) %>%
+  select(year, person_id, going_out = are_you_going_actually_going_trick_or_treating_yourself, age = how_old_are_you, gender, country, candy, rating )
+
+
+```
+
+```{r}
+candy_2016_clean <- candy_2016 %>%
+  mutate(person_id = max(candy_2015_clean$person_id) + row_number()) %>%
+  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candy", values_to = "rating")%>%
+  mutate(
+    year = 2016) %>%
+  select(year, person_id,going_out = are_you_going_actually_going_trick_or_treating_yourself,
+    age = how_old_are_you,
+    gender = your_gender,
+    country = which_country_do_you_live_in,
+    candy,
+    rating
+    )
+  
+```
+
+
+```{r}
+candy_2017_clean <- candy_2017 %>%
+  rename(x100_grand_bar = '100_grand_bar')%>%
+  mutate(person_id = max(candy_2016_clean$person_id) + row_number()) %>%
+  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candy", values_to = "rating")%>%
+  mutate(
+    year = 2017) %>%
+  select(year, person_id, going_out, gender, age,country, candy, rating
+         )
+  
+```
+/* Binding all data */
+```{r}
+candy_combined <- rbind(candy_2015_clean, candy_2016_clean, candy_2017_clean)
+```
+
+```{r}
+candy_combined_tidy <- candy_combined %>%
+  mutate(age =  as.numeric(age),
+         rating = str_to_lower(rating),
+         country = str_to_loer(country)
          )
 ```
 
 
 
+/* Analysing questions*/
+```{r}
+candy_clean_data <- read.csv("clean_data/candy_clean.csv")
+candy_clean_data
+```
+
+/*1. What is the total number of candy ratings given across the three years. Hint: Number of candy ratings, not number of raters.*/
+```{r}
+candy_clean_data%>%
+filter(!is.na(rating))%>%
+  nrow()
+```
+/*2-What was the average age of people who are going out trick or treating and the average age of people not going trick or treating?* /
+```{r}
+candy_clean_data%>%
+  group_by(going_out) %>%
+  summarise(avg_age = mean(age,na.rm = TRUE))
+  
+```
+/*3.For each of joy, despair and meh, which candy bar recieved these ratings the most? */
+
+
+
+```{r}
+candy_clean_data%>%
+  filter(!is.na(rating)) %>%
+  group_by(rating, candy) %>%
+  summarise(count = n() )%>%
+  filter(count == max(count))
+  
+```
+
+
+/*4. How many people rated Starburst as despair? */
+```{r}
+candy_clean_data%>%
+  filter(candy == "starbust") %>%
+  filter(rating == "despair")%>%
+  summarise(id_count = n_distinct(person_id))
+  
+```
 
