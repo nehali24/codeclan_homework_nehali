@@ -91,7 +91,7 @@ disaster_1 %>%
   arrange(desc(max_death))
 
 ```
-5. What were the top 10 years that had the most people dying from earthquakes?
+
 ```{r}
 disaster_1 %>%
   select(year,disaster_type,total_deaths) %>%
