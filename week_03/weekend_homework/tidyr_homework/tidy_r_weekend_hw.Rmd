@@ -28,7 +28,7 @@ names(women_in_gov_clean)
 
 ```
 
-/*q3.  We have some columns in the data that don’t really need to be there. Confirm that the X64, Indicator.Name and Indicator.Code have the same values for all observations. If they do, remove those columns.   */
+/*q3.     */
 
 ```{r}
 women_in_gov_clean %>% distinct(x1964)
@@ -41,7 +41,7 @@ women_in_gov2 <- women_in_gov_clean %>%
 ```
 
 
-/* QUES4. Think back to last week where we talked about wide vs long format. As the data is in wide format, it’s pretty clear to see we have a lot of missing values. Reshape the data from wide to long format, so that for each country the year column becomes a row. Name the column you put your values into (i.e. the ‘values_into’ argument) prop_women. */
+
 
 
 ```{r}
@@ -53,7 +53,7 @@ women_in_gov_long <- women_in_gov2 %>%
 women_in_gov_long
     
 ```
-/* 8.You’ll notice your prop_women column contains missing values. Let’s do a few things. First, let’s count how many missing values you have. Then check how many different missing values you have (e.g. how many unique ones do you have). Then decide how you will deal with them. Will you insert average imputation values, most common imputation values, or use the multiple imputation method? Explain your decision. Then fix the missing values.*/
+/* 8.*/
 
 ```{r}
 women_in_gov_long %>%
@@ -72,7 +72,7 @@ women_in_gov <- women_in_gov_long %>%
   drop_na()
 ```
 
-/*9.   Create a boxplot to see if there are any outliers in the proportion of women. */
+/*9.    */
 
 
 ```{r}
@@ -80,7 +80,7 @@ ggplot(women_in_gov, aes(x = "prop", y = prop_women)) +
     geom_boxplot()
 
 ```
-/*10 -Calculate a zscore for each value in the prop_women column, and then add a column to show which values are the outliers     */
+/*10 -    */
 ```{r}
 library(outliers)
 
@@ -104,7 +104,7 @@ women_no_outliers <- women_in_gov %>%
 
 ```
 
-/*12- Now you have your clean dataset, let’s do some summarising. Find the top 10 countries with the highest mean proportion of women in government across all the years. Then find the bottom 10.      */
+/*12-    */
 ```{r}
 top_10_women <- women_no_outliers %>%
                   arrange(country_name, country_code, year) %>%
@@ -126,6 +126,4 @@ bottom_10_women <- women_no_outliers %>%
 bottom_10_women
 ```
 
-
-/*13-  Pick another interesting analysis question of your choosing. Tell us WHY you think it is interesting, how you did it, and what it tells us.   */
 
