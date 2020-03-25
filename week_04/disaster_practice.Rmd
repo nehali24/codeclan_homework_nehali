@@ -58,8 +58,6 @@ no_outlier <- disaster_1 %>%
   filter(is_outlier == FALSE)
 ```
 
-
-
 ```{r}
 disaster_miss <- disaster_1 %>% 
   
