@@ -1,0 +1,72 @@
+---
+title: "strings_hw"
+output: html_document
+---
+```{r}
+library(tidyverse)
+```
+
+```{r}
+tweets <- read.csv("data/code_clan_tweets.csv", stringsAsFactors=FALSE)
+tweets
+```
+
+
+```{r}
+
+tweets_sum <- group_by(tweets,favorite_count)
+summarise <- count(tweets_sum)
+summarise
+boxplot(summarise$favorite_count)
+```
+
+```{r}
+tweets %>%
+  filter(is_quote == FALSE) %>%
+  summarise(total = sum(favorite_count))
+```
+
+```{r}
+tweets %>% group_by(source) %>% summarise(mean(retweet_count))
+
+```
+
+```{r}
+tweets %>%
+  mutate(media_type2 = replace_na(media_type, "text")) %>%
+  group_by(media_type2) %>%
+  summarise(favourite_count_total = sum(favorite_count)) %>%
+  arrange(desc(favourite_count_total))
+
+```
+```{r}
+tweets_with_length <- tweets %>% mutate(string_length = str_length(text)) %>% mutate(string_length = replace_na(string_length, 0))
+tweets_with_length
+mean(tweets_with_length$string_length)
+#mean(tweets_with_length$string_length, na.rm = TRUE)
+```
+
+```{r}
+codeclaninfo <- read.csv("data/code_clan_info.csv", stringsAsFactors=FALSE)
+codeclaninfo
+```
+```{r}
+joined <- tweets %>% left_join(codeclaninfo, by = c("tweet_id" = "tweet_id"))
+joined
+
+```
+
+```{r}
+codeclan_hashtags <- joined%>% 
+  select(tweet_id, hashtags) %>%
+  mutate(lowcase_hashtag = str_to_lower(hashtags)) %>%
+  select(-hashtags) %>%
+  drop_na(lowcase_hashtag)
+
+codeclan_hashtags
+```
+/* extension */
+```{r}
+
+```
+
