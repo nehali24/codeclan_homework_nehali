@@ -1,0 +1,34 @@
+---
+title: "Sea bird observation data"
+output: html_document
+---
+
+```{r}
+library(janitor)
+library(tidyverse)
+library(tidyr)
+library(readxl)
+library(rebus.datetimes)
+library(stringr)
+```
+
+
+```{r}
+bird <- read_excel("seabirds.xls", sheet = "Bird data by record ID", guess_max = 49019)
+ship <- read_excel("seabirds.xls", sheet = "Ship data by record ID", guess_max = 12310)
+```
+
+```{r}
+bird_clean <- clean_names(bird)
+ship_clean <- clean_names(ship)
+```
+
+```{r}
+bird_clean <- bird_clean %>%
+  rename(common_name = species_common_name_taxon_age_sex_plumage_phase,
+         scientific_name = species_scientific_name_taxon_age_sex_plumage_phase)
+
+```
+
+
+

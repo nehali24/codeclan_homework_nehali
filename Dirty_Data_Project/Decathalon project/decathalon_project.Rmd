@@ -1,0 +1,123 @@
+---
+title: "Decathalon_project"
+output: html_document
+---
+#Dirtydata_project
+```{r}
+library(janitor)
+library(tidyverse)
+library(tidyr)
+library(stringr)
+library(rebus)
+library(dplyr)
+library(CRANsearcher)
+```
+
+#First task was to read rds file and clean it
+```{r}
+decathlon <- readRDS("decathlon.rds")
+decathlon
+```
+#Very first step of cleaning was using clean names from janitor, that convert variable names into usable names
+```{r}
+decathlon_clean <- clean_names(decathlon)
+decathlon_clean
+```
+#As we can see that for col-1 , col_name was missing so I assigned a colname as 'Name'
+```{r}
+decathlon_clean %>%
+  rownames_to_column("Name")
+```
+#More formatting of colnames as they were all in lowercase, as in above dataset the data type of competition is factor, but we want convert it to character so we will mutate, as it creates a new variable.
+```{r}
+names(decathlon_clean) <- c("X100m", "Long_jump", "Shotput", "High_jump", "X400m","X110m_Hurdle", "Discus","Pole_vault", "Javelin" , "X1500m", "Rank", "Points", "Competition") 
+decathlon_clean <- decathlon_clean %>% rownames_to_column("Name") %>% mutate(Competition = as.character(Competition))
+```
+#Parsing is done to specify type of value each column accepts.
+```{r}
+## parsed with column specification
+## cols(
+## 'Name' = col_character(),
+## 'X100m' = col_double(),
+## 'Long_jump' = col_double(),
+## 'Shot_put' = col_double(),
+## 'High_jump' = col_double(),
+## 'X400m' = col_double(),
+## 'X110m_hurdle' = col_double(),
+## 'Discus' = col_double(),
+## 'Pole_vault' = col_double(),
+## 'Javeline' = col_double(),
+## 'X1500m' = col_double(),
+## 'Rank' = col_double(),
+## 'Points' = col_double(),
+## 'Competition' = col_character()
+
+## )
+```
+
+```{r}
+decathlon_clean 
+```
+#Printing the competitor who had longest jump 
+```{r}
+decathlon_clean %>%
+  head('Long_jump') %>%
+head(1)
+```
+#Calculating the average 100m time for each competition
+```{r}
+decathlon_clean %>%
+  select(X100m,Competition) %>%
+  filter(Competition == 'Decastar') %>%
+  group_by(Competition) %>%
+  filter(!is.na(X100m)) %>%
+ summarise(mean = mean(X100m)) 
+decathlon_clean %>%
+select(X100m, Competition) %>%
+  filter(Competition == 'OlympicG') %>%
+    group_by(Competition) %>%
+    filter(!is.na(X100m)) %>%
+    summarise(mean = mean(X100m))
+```
+#Highest total points across both competetion ->  distinct is same as unique,it will give unique names with their points and competition, then we'll do grouping by name , then we'll find total sum of points and then arranged in desc order.
+```{r}
+decathlon_clean %>%
+  distinct(Name,Points,Competition) %>% 
+  group_by(Name) %>%
+  summarise(total = sum(Points)) 
+  arrange(desc(total)) %>%
+  head(1)
+  
+
+```
+#Shotput score for top three competitors in each competetion
+```{r}
+decathlon_clean %>%
+  select(Rank,Shotput) %>%
+  filter(Rank<= 3) %>%
+  head(3)
+    
+```
+
+#average points for competitors who ran the 400m in less than 50 seconds vs. those than ran 400m in more than 50 seconds
+
+```{r}
+decathlon_clean %>%
+  select(X400m,Points) %>%
+  group_by(X400m < 50) %>%
+  summarise(avg = mean(Points))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
