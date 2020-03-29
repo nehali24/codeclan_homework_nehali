@@ -1,0 +1,104 @@
+---
+title: "clean_ship_bird_analysis"
+author: "nehali"
+date: "28/03/2020"
+output: html_document
+---
+
+```{r}
+library(janitor)
+library(tidyverse)
+library(tidyr)
+library(readxl)
+library(rebus.datetimes)
+library(stringr)
+```
+
+```{r}
+bs <-read.csv("clean_bird_ship/bird_ship_join.csv")
+bs
+
+```
+```{r}
+
+## parsed with column specification
+## cols(
+## 'record' = col_double(),
+## 'record_id' = col_double(),
+## 'common_name' = col_character(),
+## 'scientific_name' = col_character(),
+## 'lat' = col_double(),
+## 'long' = col_double(),
+## )
+```
+
+```{r}
+bird_ship_join
+```
+
+
+
+```{r}
+individual_sighting <-bird_ship_join %>%
+  group_by(common_name, scientific_name) %>%
+  filter_all(all_vars(!is.na(.))) %>%
+  summarise( count = n() )%>%
+  arrange(desc(count))
+  
+```
+
+
+
+
+```{r}
+total_count <- individual_sighting %>% 
+   group_by(common_name, scientific_name) %>%
+  summarise( count = sum(count, na.rm = TRUE)) %>%
+  arrange(desc(count))
+total_count
+  
+```
+
+
+```{r}
+full_join <- bird_ship_join %>%
+  full_join(individual_sighting, by = c("common_name", "scientific_name")) 
+  
+```
+
+```{r}
+h_t_c <- full_join %>%
+  filter(lat > -30) %>%
+  group_by(common_name, scientific_name,lat) %>%
+  summarise(count = sum(count, na.rm = TRUE) )%>%
+  arrange(desc(count))
+
+  
+```
+
+
+
+
+```{r}
+full_join %>%
+  group_by(common_name, scientific_name) %>%
+  summarise(
+    max_count = max(count)
+  ) %>% 
+  filter(max_count == 1) %>%
+  nrow()
+  
+```
+
+
+
+```{r}
+full_join %>%
+  filter(str_detect(common_name,"penguin")) %>%
+  summarise(sum(count, na.rm = TRUE))
+  
+```
+
+
+
+

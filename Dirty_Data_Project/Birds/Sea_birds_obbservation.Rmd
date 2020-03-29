@@ -24,10 +24,50 @@ ship_clean <- clean_names(ship)
 ```
 
 ```{r}
-bird_clean <- bird_clean %>%
+bird_clean_re <- bird_clean %>%
   rename(common_name = species_common_name_taxon_age_sex_plumage_phase,
          scientific_name = species_scientific_name_taxon_age_sex_plumage_phase)
 
+```
+
+
+
+```{r}
+bird_clean <- bird_clean_re %>%
+  select(record, record_id, common_name, scientific_name) 
+
+```
+
+```{r}
+shipclean <- ship_clean %>%
+  select(record_id, lat,long)
+```
+
+```{r}
+bird_ship_join <- bird_clean%>%
+  left_join(shipclean,bird_clean_re, by = c("record_id"))
+bird_ship_join
+```
+
+```{r}
+## parsed with column specification
+## cols(
+## 'record' = col_double(),
+## 'record_id' = col_double(),
+## 'common_name' = col_character(),
+## 'scientific_name' = col_character(),
+## 'lat' = col_double(),
+## 'long' = col_double()
+## )
+
+```
+
+```{r}
+bird_ship_join
+```
+
+```{r}
+write.csv(bird_ship_join,"clean_bird_ship/bird_ship_join.csv")
 ```
 
 
