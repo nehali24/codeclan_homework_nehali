@@ -1,0 +1,56 @@
+---
+title: "halloween_candy_cleaning"
+output: html_document
+---
+
+```{r}
+library(janitor)
+library(stringr)
+library(tidyverse)
+library(tidyr)
+library(readxl)
+```
+
+```{r}
+candy_2015 <- read_excel("boing-boing-candy-2015.xlsx")
+candy_2016 <- read_excel("boing-boing-candy-2016.xlsx")
+candy_2017 <- read_excel("boing-boing-candy-2017.xlsx")
+```
+
+```{r}
+candy_2015_clean <- clean_names(candy_2015)
+candy_2016_clean <- clean_names(candy_2016)
+candy_2017_clean <- clean_names(candy_2017)
+```
+
+```{r}
+names_2017 <- names(candy_2017_clean)
+names_2017
+```
+
+```{r}
+names(candy_2017) <- str_remove(names(candy_2017_clean),"q[0-9]_+")
+
+
+```
+
+```{r}
+candy_2015_clean <- candy_2015_clean %>%
+  mutate("id" = row_number())%>%
+ pivot_longer(butterfinger:york_peppermint_patties, names_to = "Candy", values_to = "rating") %>%
+  mutate(year = 2015,
+        gender = NA,
+        Country = NA
+        ) %>%
+  select(id, year, going_out = are_you_going_actually_going_trick_or_treating_yourself, comments = please_leave_any_remarks_or_comments_regarding_your_choices, age = how_old_are_you, rating, gender, Country, rating,Candy)
+
+  
+```
+
+
+```{r}
+candy_2016_clean <- candy_2016_clean %>%
+  mutate("id" = row_number()) %>%
+  pivot_longer()
+```
+
