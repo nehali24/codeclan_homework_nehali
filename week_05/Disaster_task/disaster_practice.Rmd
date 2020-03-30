@@ -11,8 +11,6 @@ library(outliers)
 
 ```
 
-
-
 ```{r}
 disaster <- read.csv("disasters_with_errors.csv", stringsAsFactors = FALSE)
 disaster
@@ -72,7 +70,7 @@ write.csv(disaster_1,"clean_data/disaster_1.csv")
 read_csv("clean_data/disaster_1.csv")
 ```
 
-#1
+
 ```{r}
 disaster_1 %>%
   select(disaster_type, total_deaths) %>%
@@ -92,19 +90,19 @@ disaster_miss <- disaster_1 %>%
   arrange(disaster_1,desc(total_deaths))
 ```
 
-#2
+
 ```{r}
 head(disaster_1,'total_affected')
 select(disaster_1,country_name,total_affected) %>%
   arrange(desc(total_affected))
 ```
-#3
+
 ```{r}
 select(disaster_1,country_name,total_affected)%>%
   arrange(desc(total_affected)) %>%
 head(5)
 ```
-#4
+
 ```{r}
 
 disaster_1 %>% 
@@ -116,7 +114,7 @@ disaster_1 %>%
   arrange(desc(max_death))
 
 ```
-#5
+
 ```{r}
 disaster_1 %>%
   select(year,total_deaths, disaster_type) %>%
