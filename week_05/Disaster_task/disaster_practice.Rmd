@@ -1,0 +1,129 @@
+---
+title: "Disaster_practice_data"
+output: html_document
+---
+
+```{r}
+library(janitor)
+library(dplyr)
+library(CRANsearcher)
+library(outliers)
+
+```
+
+
+
+```{r}
+disaster <- read.csv("disasters_with_errors.csv", stringsAsFactors = FALSE)
+disaster
+```
+
+
+```{r}
+disaster_1 <- clean_names(disaster) 
+
+disaster_1
+```
+
+
+```{r}
+## parsed with column specification
+## cols(
+## 'id' = col_double(),
+## 'year' = col_double(),
+## 'disaster_type' = col_character(),
+## 'ISO' = col_character(),
+## 'country_name' = col_character(),
+## 'occurrence' = col_double(),
+## 'total_deaths' = col_double(),
+## 'affected' = col_double(),
+## 'injured' = col_double(),
+## 'homeless' = col_double(),
+## 'total_affected' = col_double(),
+## 'total_damage' = col_double()
+## )
+```
+
+```{r}
+disaster_1
+```
+
+
+
+```{r}
+outlier <- boxplot(disaster_1$total_deaths)$out
+outlier
+
+```
+```{r}
+disaster_1_zscore <- scores(disaster_1$total_deaths)
+is_outlier <- disaster_1_zscore > 3 | disaster_1_zscore < -3
+disaster_1 <- disaster_1 %>%
+  mutate(is_outlier = is_outlier)
+no_outlier <- disaster_1 %>%
+  filter(is_outlier == FALSE)
+```
+
+```{r}
+write.csv(disaster_1,"clean_data/disaster_1.csv")
+```
+
+```{r}
+read_csv("clean_data/disaster_1.csv")
+```
+
+#1
+```{r}
+disaster_1 %>%
+  select(disaster_type, total_deaths) %>%
+  group_by(disaster_type,total_deaths) %>%
+  filter_all(all_vars(!is.na(.))) %>%
+  summarise(count = n()) %>%
+  arrange(desc((total_deaths))) %>%
+  head(1)
+  
+  
+```
+
+```{r}
+disaster_miss <- disaster_1 %>% 
+  
+   select(disaster_type, total_deaths)
+  arrange(disaster_1,desc(total_deaths))
+```
+
+#2
+```{r}
+head(disaster_1,'total_affected')
+select(disaster_1,country_name,total_affected) %>%
+  arrange(desc(total_affected))
+```
+#3
+```{r}
+select(disaster_1,country_name,total_affected)%>%
+  arrange(desc(total_affected)) %>%
+head(5)
+```
+#4
+```{r}
+
+disaster_1 %>% 
+  select(disaster_type, total_deaths, year) %>%
+  filter(year %in% (2010:2015)) %>% 
+  group_by(disaster_type) %>%
+  filter(!is.na(total_deaths)) %>%
+  summarise(max_death = max(total_deaths)) %>%
+  arrange(desc(max_death))
+
+```
+#5
+```{r}
+disaster_1 %>%
+  select(year,total_deaths, disaster_type) %>%
+  filter(disaster_type == 'earthquake')%>%
+  group_by(total_deaths)%>%
+  arrange(desc(total_deaths))
+  
+```
+
+
