@@ -51,6 +51,23 @@ candy_2015_clean <- candy_2015_clean %>%
 ```{r}
 candy_2016_clean <- candy_2016_clean %>%
   mutate("id" = row_number()) %>%
-  pivot_longer()
+  pivot_longer(x100_grand_bar:kinder_happy_hippo, names_to = "Candy", values_to = "rating") %>%
+  mutate(year = 2016) %>%
+  select(id, year, going_out = are_you_going_actually_going_trick_or_treating_yourself, Gender = your_gender, Age = how_old_are_you, Country = which_country_do_you_live_in, rating)
+
+         
+```
+
+```{r}
+candy_2017_clean <- candy_2017_clean %>%
+  pivot_longer(100_grand_bar:kinder_happy_hippo, names_to = "candy", values_to = "rating") %>%
+  mutate(year = 2017) %>%
+  select(internal_id, year,going_out,gender, age, country, State = state_province_county_etc, rating)
+```
+
+```{r}
+candy_join <-  rbind(candy_2015_clean, candy_2016_clean, candy_2017_clean)
+candy_join
+
 ```
 
