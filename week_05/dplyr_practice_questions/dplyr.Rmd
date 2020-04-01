@@ -1,0 +1,210 @@
+---
+title: "dplyr_practice"
+output: html_document
+---
+```{r}
+library(dplyr)
+library(janitor)
+library(readr)
+```
+
+```{r}
+salaries <- read.csv("data/salaries.csv")
+salaries
+```
+
+```{r}
+select(salaries,'beginning_salary', 'current_salary')
+
+```
+
+```{r}
+salary_50 <- salaries %>%
+  
+  filter(age > 50) %>%
+filter(current_salary > 20000) 
+salary_50
+
+
+```
+
+```{r}
+salaries %>%
+  select(current_salary) %>%
+  arrange(desc(current_salary))
+```
+
+```{r}
+salaries %>%
+  mutate(beginning_salary_pence = beginning_salary * 100, current_salary_pence = current_salary *100)
+```
+
+
+```{r}
+min_max_age <- salaries %>%
+  select(age) %>%
+  filter(!is.na(age)) %>%
+  summarise(max(age), min(age)) 
+  min_max_age
+```
+
+```{r}
+min_max_salary <- salaries %>%
+  select(current_salary) %>%
+  summarise(min(current_salary), max(current_salary))
+min_max_salary
+```
+
+```{r}
+emp_under_30 <- salaries %>%
+
+  filter(age < 30)
+emp_under_30
+  
+  
+```
+
+```{r}
+salaries %>%
+  select(beginning_salary,job_seniority,age, educational_level,gender, current_salary,work_experience, employment_category, is_white) 
+  arrange(salaries,desc(educational_level))
+ 
+  
+```
+
+```{r}
+salaries %>%
+  filter(is.numeric(salaries) == FALSE) %>%
+  drop()
+  
+  
+  
+```
+
+```{r}
+emp_exp_less_then2_edu_less_then_12 <- salaries %>%
+  select(work_experience,educational_level,age, job_seniority,beginning_salary,gender,age,employment_category) %>%
+filter((work_experience < 2) | (educational_level < 12))
+  
+ emp_exp_less_then2_edu_less_then_12 
+```
+
+```{r}
+salary_in_1000s <- salaries %>% 
+  select(beginning_salary, current_salary) %>%
+  rename(beginning_salary_in_1000s = beginning_salary,  current_salary_in_1000s = current_salary) %>%
+  transform(beginning_salary_in_1000s = beginning_salary_in_1000s/1000, current_salary_in_1000s = current_salary_in_1000s/1000)
+  salary_in_1000s
+```
+
+
+
+```{r}
+female_emp <- salaries %>%
+  select('employment_category','gender') %>%
+filter(employment_category == 'security officer', gender == 'female')
+female_emp
+```
+
+
+
+```{r}
+avg <- salaries %>%
+  select(current_salary, employment_category) %>%
+group_by(employment_category) %>% 
+summarise(mean(current_salary))
+
+```
+
+
+```{r}
+avg_males <- salaries %>%
+  select(current_salary, employment_category,gender) %>%
+  filter(gender == "male") %>%
+group_by(employment_category) %>% 
+summarise(mean(current_salary))
+```
+
+#15.Find the number of white females, white males, non-white females and non-white males.
+
+
+```{r}
+salaries %>%
+  group_by(gender, is_white) %>%
+  summarise(n()) 
+ 
+```
+
+#16.What is happens when we use summary statistics like mean with mutate? mutate(df, mean_age = mean(current_salary)) You may need to use View to see the whole data. Now use group_by with mutate and mean. What do you see?
+
+
+```{r}
+salaries %>%
+  mutate(mean_age = mean(current_salary)) %>%
+  View()
+```
+
+#PIPES
+#1.Find the average salary per educational level, for educational levels of 16 and below. Arrange the results from highest salary to lowest. Answer using pipes.
+
+```{r}
+salaries %>%
+  select(current_salary,educational_level) %>%
+filter(educational_level <= 16) %>%
+  group_by(educational_level) %>%
+  summarise(mean(current_salary))
+ 
+ 
+
+```
+
+
+
+#2.Find the average salary for each gender in each employment category. Exclude any employees with less than 2 years of work experience. Answer using pipes.
+
+
+```{r}
+salaries %>%
+  select(employment_category, current_salary,gender,work_experience) %>%
+filter(work_experience < 2)%>%
+  group_by(gender = 'male',employment_category) %>%
+ summarise(mean(current_salary)) 
+
+salaries %>%
+  select(employment_category, current_salary,gender,work_experience) %>%
+filter(work_experience < 2)%>%
+group_by(gender = 'female', employment_category) %>%
+  summarise(mean(current_salary))
+  
+```
+#3
+
+```{r}
+salaries %>%
+  select(employment_category,current_salary) %>%
+  group_by(employment_category) %>%
+  summarise(mean('college trainee'), mean('exempt employee'), mean('clerical'))
+  
+```
+
+#3missing values
+
+
+#1
+```{r}
+beer <- read.delim("data/beer.txt", sep = "|", dec = ",")
+beer
+```
+
+```{r}
+beer <- clean_names(beer)
+```
+
+```{r}
+beer %>%
+  filter(beer,na.rm == TRUE)
+  
+ 
+  
+```
+
