@@ -1,0 +1,96 @@
+---
+title: "cake_ingredients"
+author: "---"
+date: "01/04/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+cake <- read_csv("cake-ingredients-1961.csv")
+names <- read_csv("cake_ingredient_code.csv")
+```
+
+
+```{r}
+cake_clean <- cake%>%
+  pivot_longer(cols = AE:ZH , names_to = "code", values_to = "amount") %>%
+  left_join(names,cake, by = "code") %>%
+  drop_na(amount) 
+  
+```
+
+
+
+```{r}
+cake_clean
+```
+
+```{r}
+cake_clean %>%
+  write.csv("clean.csv")
+```
+
+
+```{r}
+cake_1 <- read_csv("clean.csv")
+cake_1
+```
+
+
+```{r}
+cake_1
+```
+
+```{r}
+cake_1 %>%
+  select(Cake,ingredient, amount) %>%
+  filter(ingredient == "Cocoa") %>%
+  arrange(desc(ingredient))
+
+
+```
+
+```{r}
+cake_1 %>%
+  
+  filter(Cake == "Sponge") %>% 
+filter(measure == "cup")  %>%
+  summarise(total_cups = sum(amount))
+  
+  
+  
+```
+
+
+```{r}
+teaspoon <- cake_1 %>%
+  filter(measure == "teaspoon")%>%
+  summarise(teaspoon_ingre = n_distinct(ingredient))
+  teaspoon
+```
+
+
+```{r}
+
+cake_1 %>%
+  group_by(Cake) %>%
+  summarise(n_ingredients = n()) %>%
+  arrange(desc(n_ingredients))
+    
+
+```
+
+
+```{r}
+cake_1 %>%
+  group_by(ingredient) %>%
+  summarise(n_Cakes = n()) %>%
+  filter(n_Cakes == 1)
+```
+
+
