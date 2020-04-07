@@ -1,0 +1,57 @@
+---
+title: "week_05_d1"
+author: "nehali"
+date: "06/04/2020"
+output: html_document
+---
+
+```{r}
+library(CodeClanData)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+backpack
+```
+#2
+```{r}
+ggplot(backpack) +
+  geom_bar(aes(x = backpack_weight, fill = sex)) + scale_fill_manual(values = c("pink", "blue"))
+  
+```
+#the above graphs shows that when the backpack weight is less , we have more number of females carrying, as the weight increases the number of females decreases.
+
+
+
+#3 yes there are differences in backpack weights depending on sex, as in above graph we can see the number of females  is quite high for lesser weight, as the weight increases the number of females vanishes at the end.
+
+
+
+#4
+```{r}
+ggplot(backpack) +
+  geom_line(aes(x = backpack_weight,y = body_weight, colour = sex))
+  
+ 
+  
+```
+
+#5-yes this relationship is different between men and women , as we can interpret that men who are having higher body weight can carry heavier backpacks, while women have lower body weight so they are carrying lower weighted backpacks.
+
+#6
+```{r}
+backpack
+```
+```{r}
+backpack %>%
+  filter(back_problems == 1) %>%
+  count()
+```
+```{r}
+backpack %>%
+  geom_line()
+```
+
+
+
