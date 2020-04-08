@@ -1,0 +1,55 @@
+---
+title: "w5_d2 hw"
+author: "nehali"
+date: "08/04/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(CodeClanData)
+library(ggplot2)
+```
+
+```{r}
+qb_rev <- qb_revenue_breakdown
+qb_rev
+```
+
+```{r}
+ggplot(qb_rev) +
+  geom_bar(aes(x = Revenue, fill = Product, y = Year), stat = "identity") 
+
+```
+
+```{r}
+subset <- subset(qb_monthly_sales)
+```
+
+```{r}
+subset %>%
+  mutate(subset,Cashflow = 'Kwikbit Unit 1 Sales') 
+ggplot(subset) +
+  geom_line(aes(x = Date, y = Amount)) 
+    
+              
+  
+```
+
+#3
+
+```{r}
+ qb_monthly_sales
+```
+
+```{r}
+qb_rev
+```
+
+```{r}
+qb_monthly_sales %>%
+  filter(date == 2019-02-01:2019-07-01) %>%
+  group_by(Amount)
+
+```
+

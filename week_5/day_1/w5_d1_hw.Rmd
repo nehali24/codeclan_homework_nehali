@@ -1,0 +1,96 @@
+---
+title: "week_05_d1"
+author: "nehali"
+date: "06/04/2020"
+output: html_document
+---
+
+```{r}
+library(CodeClanData)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+backpack
+```
+```{r}
+head(backpack)
+```
+```{r}
+names(backpack)
+```
+
+#2
+```{r}
+ggplot(backpack) +
+  aes(x = backpack_weight) +
+             geom_histogram(bins = 20, col = "white", fill = "pink") +
+             theme_light() +
+             labs(y = "number of backpacks", x = "weight")
+          
+  
+```
+#the above graphs shows that when the backpack weight is less , we have more number of females carrying, as the weight increases the number of females decreases.
+
+
+
+#3 yes there are differences in backpack weights depending on sex, as in above graph we can see the number of females  is quite high for lesser weight, as the weight increases the number of females vanishes at the end.
+```{r}
+ggplot(backpack) +
+  aes(x = backpack_weight, fill = sex ) +
+  scale_fill_manual(values = c('#E69F00', '#56B4E9')) +
+  geom_histogram(bins = 20, col = "gray") +
+  theme_light() +
+  labs(y = "number of backpacks", x = "weight") +
+  facet_wrap(~sex)
+```
+
+
+
+#4
+```{r}
+ggplot(backpack) +
+  aes(x = body_weight, y = backpack_weight) + 
+  geom_point() + 
+  labs(x = "body weight", y = "backpack weight")
+  
+ 
+  
+```
+
+#5-yes this relationship is different between men and women , as we can interpret that men who are having higher body weight can carry heavier backpacks, while women have lower body weight so they are carrying lower weighted backpacks.
+
+#6
+```{r}
+backpack
+```
+
+```{r}
+back_problems <- backpack %>%
+  mutate(backpain_labelled = recode(back_problems, 
+                       "0" = "No", 
+                       "1" = "Yes"))
+
+ggplot(backpack) +
+aes(x = backpain_labelled, fill = backpain_labelled) +
+geom_bar() +
+ylim(0,100) +
+labs(x = "backpain reported", y = "student count") +
+scale_fill_manual(values = c('#e9a3c9','#67a9cf')) +
+theme(legend.position = "none")
+```
+
+
+
+
+```{r}
+ggplot(backpack) + 
+  aes(x = backpain_labelled, fill = backpain_labelled) + 
+  geom_bar() +
+  labs(x = "backpain reported", y = "student count") + 
+  facet_wrap(~sex) +
+      scale_fill_manual(values=c('#f0ca41', '#5022bd'))+
+theme(legend.position = "none")
+```
+
