@@ -18,38 +18,61 @@ qb_rev
 
 ```{r}
 ggplot(qb_rev) +
-  geom_bar(aes(x = Revenue, fill = Product, y = Year), stat = "identity") 
+  (aes(x = Year, fill = Product, y = Revenue)) +
+     geom_col()
+             
 
 ```
-
+#2
 ```{r}
-subset <- subset(qb_monthly_sales)
+kwikbit_sales <- subset(qb_monthly_sales, Cashflow == "Kwikbit Unit 1 Sales")
+ggplot(kwikbit_sales) +
+  aes(x = Date, y = Amount) +
+  scale_x_discrete(breaks = c("lots of writing")) +
+  geom_line()
+```
+```{r}
+qb_monthly_sales
 ```
 
-```{r}
-subset %>%
-  mutate(subset,Cashflow = 'Kwikbit Unit 1 Sales') 
-ggplot(subset) +
-  geom_line(aes(x = Date, y = Amount)) 
-    
-              
-  
-```
 
 #3
 
 ```{r}
- qb_monthly_sales
+ revenue_and_costs <- subset(qb_monthly_sales, Cashflow != "Kwikbit Unit 1 Sales")
+ggplot(revenue_and_costs) +
+  aes(x = Date, y = Amount, colour = Cashflow) +
+  geom_line()
+```
+```{r}
+qb_competitors
 ```
 
+
+#4
 ```{r}
-qb_rev
+ggplot(qb_competitors) +
+  aes(x = Year, y = Revenue,fill = Company ) +
+  geom_area()
+```
+#5
+```{r}
+ggplot(qb_competitors) +
+  aes(x = Year, y= Revenue, colour = Company) +
+  geom_line() +
+geom_point()
+```
+```{r}
+qb_device_data
 ```
 
+#6
 ```{r}
-qb_monthly_sales %>%
-  filter(date == 2019-02-01:2019-07-01) %>%
-  group_by(Amount)
 
+qb_device_data <- mutate(qb_device_data, hours_1 = (hours) + mins/60)
+ggplot(qb_device_data) +
+  aes(x = hours_1, y = counts) +
+  geom_line() +
+  facet_grid(id ~ device)
 ```
 
