@@ -40,7 +40,17 @@ die_4 %>%
   
 
 ```
+#4
+```{r}
+P <- permutations(n = 5,
+            r = 5,
+           
+          repeats.allowed = FALSE)
+P
+```
 
+
+#5
 ```{r}
 die_6 <- rolldie(6)
 die_6
