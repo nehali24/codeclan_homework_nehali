@@ -24,14 +24,14 @@ size
 die_3 <- rolldie(3)
 die_3
 ```
-
+#3
 ```{r}
 die_4 <- rolldie(4)
 die_4
 ```
 ```{r}
 die_4 %>%
-  mutate(row_sums = rowSums(.) ) 
+  mutate(total = rowSums(.) ) 
            total = c("5", "6", "7") %>%
              filter(row_sums == total)
   
@@ -111,10 +111,28 @@ patients <- c("Alice", "Bob", "Carmen", "Dinesh", "Ella", "Fergus", "Gianna","He
 order <- as.tibble(permutations(n = 8, r = 5, v = patients),repeats.allowed = FALSE)
 nrow(order)
 ```
+(ii)
 ```{r}
-patients %>%
+gd <- patients %>%
   
-  isin((Gianna Dinesh ordered = FALSE))
+  filter(isin(patients == "Gianna", patients == "Dinesh"))
+gd
   
+```
+
+#8
+```{r}
+teams <- combinations(n = 8, r = 5, v = 1:8, repeats.allowed = FALSE)
+nrow(teams)
+```
+
+#9
+```{r}
+num_captains <- 8
+teams <- combinations(n = 7, r = 5, v = )
+```
+#10
+```{r}
+(i)- P(SU )
 ```
 
