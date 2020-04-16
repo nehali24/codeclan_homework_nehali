@@ -1,0 +1,73 @@
+---
+title: "CI-minilab"
+author: "nehali"
+date: "16/04/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(infer)
+```
+
+```{r}
+ames <- read.csv("ames.csv")
+ames
+```
+```{r}
+ames <- clean_names(ames)
+ames
+```
+```{r}
+glimpse(ames)
+```
+
+```{r}
+hist <- ames %>%
+  ggplot(aes(x = sale_price)) +
+  geom_histogram()
+hist
+```
+
+```{r}
+mean_ames <- mean(ames$sale_price)
+mean_ames
+```
+
+```{r}
+
+ames_plot <- ames %>%
+  ggplot(aes(x = sale_price)) +
+  geom_histogram(aes(y = ..density..), col = "white") +
+  stat_function(
+    fun = dnorm, 
+    args = list(
+      mean = mean(ames$sale_price), 
+      sd = sd(ames$sale_price)
+    ),
+    col = "red"
+  )
+ames_plot
+```
+
+```{r}
+library(infer)
+rep_sample_200 <- telco %>%
+  rep_sample_n(size = 200, reps = 10000) %>%
+  group_by(replicate) %>%
+  summarise(
+    mean_tenure = mean(tenure)
+  ) 
+
+rep_sample_200 %>%
+  ggplot(aes(x = mean_tenure)) +
+  geom_histogram(col = "white")
+```
+
+
+```{r}
+ames %>%
+  summarise(stderr = sd(mean_))
+```
+

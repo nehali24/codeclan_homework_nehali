@@ -12,29 +12,31 @@ library(tidyverse)
 ```
 
 ```{r}
-die_1 <- rolldie(1)
-die_1
-size <- nrow(die_1)
-size 
-  p <- 1/ nrow(die_1)
-  p
+S <- rolldie(1)
+S_less_5 <- S %>%
+  filter(X1 < 5)
+prob <- nrow(S_less_5) / nrow(S)
+prob
 ```
-
+#2
 ```{r}
-die_3 <- rolldie(3)
-die_3
+size_S <- 6 * 6 * 6
+size_S <- nrow(rolldie(3))
+size_S
 ```
 #3
+
 ```{r}
-die_4 <- rolldie(4)
-die_4
-```
-```{r}
-die_4 %>%
-  mutate(total = rowSums(.) ) 
-           total = c("5", "6", "7") %>%
-             filter(row_sums == total)
-  
+S <- rolldie(4)
+
+# add total random variable
+S <- S %>%
+  mutate(total = rowSums(.))
+
+S_total_between_5_7 <- S %>%
+  filter(total %in% c(5, 6, 7))
+
+nrow(S_total_between_5_7)
 
   
   
@@ -42,82 +44,107 @@ die_4 %>%
 ```
 #4
 ```{r}
-P <- permutations(n = 5,
-            r = 5,
-           
-          repeats.allowed = FALSE)
-P
+outcomes <- factorial(5)
+prob_perfect_order <- 1/outcomes
+prob_perfect_order
 ```
 
 
 #5
 ```{r}
 die_6 <- rolldie(6)
-die_6
+prob <- 1/nrow(die_6)
+prob
+
         
 ```
+(i)
 ```{r}
-die_6 %>%
- filter(X1 == 6 & X2 == 5 & X3 == 4 & X4 == 3 & X5 == 2 & X6 == 1) 
-  
+in_order <- die_6 %>%
+ filter(isin(., c(6,5,4,3,2,1), ordered = TRUE))
+prob <- nrow(in_order) / nrow(die_6)
+prob
   
 ```
-```{r}
-P<- 1/ 46656
-P
-```
+(ii)
 
 ```{r}
-die_6 %>%
-  filter(X1 == 6 | X2 == 5 | X3 == 4 | X4 == 3 | X5 == 2 | X6 == 1) 
-  
+row_654321 <- die_6 %>%
+  filter(isin(., c(6,5,4,3,2,1), ordered = FALSE))
+prob <- nrow(row_654321) / nrow(die_6)
+prob
 ```
 ```{r}
-rolldie(6)
+prob <- factorial(6) / 6^6
+prob
 ```
 
-```{r}
-p <- 31031/46656
-p
-```
 #6
-
 
 ```{r}
 cards <- cards(jokers = FALSE) 
-cards
+cards <- cards %>%
+  mutate(black_card = suit == "Club" | suit == "Spade")
+
+cards_spades_black <- cards %>%
+  filter(black_card == TRUE & suit == "Spade")
+prob_spade_black <- nrow(cards_spades_black)/nrow(cards)
+
+cards_black <- cards %>%
+  filter(black_card == TRUE )
+prob_black <- nrow(cards_black) / nrow(cards)
+
+prob_spades_given_black <- prob_spade_black / prob_black
+prob_spades_given_black
+
+
 ```
 
-```{r}
-cards <- choose(52,1)
-cards
-```
-```{r}
-cards %>%
-  select(cards, suit) 
-  filter(suite == "spade")
-```
-
-```{r}
-cards %>%
-  black_card<- c("Club", "Spade") %>%
-  mutate(as.character(suite,black_card)) 
-  
-  
-```
 #7
 ```{r}
 patients <- c("Alice", "Bob", "Carmen", "Dinesh", "Ella", "Fergus", "Gianna","Henry")
-order <- as.tibble(permutations(n = 8, r = 5, v = patients),repeats.allowed = FALSE)
+order <- as_tibble(permutations(n = 8, r = 5, v = patients),repeats.allowed = FALSE)
 nrow(order)
 ```
+```{r}
+names(S) <- c("appt1", "appt2", "appt3", "appt4", "appt5")
+
+nrow(S)
+```
+
 (ii)
 ```{r}
 gd <- patients %>%
   
-  filter(isin(patients == "Gianna", patients == "Dinesh"))
-gd
+  filter(isin( ., c("Gianna", "Dinesh"), ordered = FALSE))
+prob <- nrow(gd) / nrow(patients)
+prob
   
+```
+(iii)
+```{r}
+S_Gianna_before_Dinesh <- patients %>%
+  filter(isin(., c("Gianna", "Dinesh"), ordered = TRUE))
+# new prob
+prob <- nrow(S_Gianna_before_Dinesh) / nrow(patients)
+prob
+```
+(iv)
+```{r}
+# first step is a 2P2 problem: permute 2 patients from 2.
+high_priority_patients <- c("Carmen", "Henry")
+S_high_priority <- as_tibble(permutations(n = 2, r = 2, v = high_priority_patients, repeats.allowed = FALSE))
+names(S_high_priority) <- c("appt1", "appt2")
+
+# second step is a 6P3 problem: permute 3 patients from 6.
+normal_priority_patients <- c("Alice", "Bob", "Dinesh", "Ella", "Fergus", "Gianna")
+S_normal_priority <- as_tibble(permutations(n = 6, r = 3, v = normal_priority_patients, repeats.allowed = FALSE))
+names(S_normal_priority) <-c("appt3", "appt4", "appt5")
+
+# merge these dataframes
+S <- merge(S_high_priority, S_normal_priority)
+# final answer
+nrow(S)
 ```
 
 #8
@@ -129,7 +156,11 @@ nrow(teams)
 #9
 ```{r}
 num_captains <- 8
-teams <- combinations(n = 7, r = 5, v = )
+teams <- combinations(n = 7, r = 5, v = 1:7, repeats.allowed = FALSE)
+num_team_combinations <- nrow(teams)
+
+# combinations
+num_captains * num_team_combinations
 ```
 #10
 ```{r}
