@@ -31,6 +31,7 @@ top_brand
 samsung_ratings <- phones %>%
   filter(brand == "Samsung") %>%
   select(rating)
+
 samsung_stats <- phones %>%
   filter(brand == "Samsung") %>%
   summarise(
@@ -39,9 +40,6 @@ samsung_stats <- phones %>%
     sd = sd(rating)
   )
 samsung_stats
-samsung_stats_fitdistr <- MASS::fitdistr(x = samsung_ratings$rating, densfun = "normal")
-samsung_stats_fitdistr
-
 ```
 #4
 ```{r}
