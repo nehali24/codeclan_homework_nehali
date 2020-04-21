@@ -1,0 +1,133 @@
+---
+title: "HW"
+author: "nehali"
+date: "21/04/2020"
+output: html_document
+---
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(tidyverse)
+library(tsibble)
+library(tsibbledata)
+library(feasts)
+library(nycflights13)
+```
+
+```{r}
+date1 <- ymd_hms("2017-04-22 22:01:18")
+date2 <- ymd_hms("2001-11-07 10:09:56")
+```
+#Extract the different components (year, month, mday, yday, wday) from the variable date1. Add the labels to the month and do not abbreviate the month labels.
+```{r}
+date1
+date2
+```
+
+```{r}
+ymd("2017-04-22")
+```
+
+```{r}
+year("2017-04-22")
+month("2017-04-22 22:01:18 UTC")
+mday("2017-04-22 22:01:18 UTC")
+yday("2017-04-22 22:01:18 UTC")
+wday("2017-04-22 22:01:18 UTC")
+
+month(ymd("2017-04-22"), label = TRUE, abbr = FALSE)
+```
+Add 14 days to your date1 variable and store it in a variable called next_fortnight. Take away 10 years from your date2 variable, and store it in previous_decade.
+```{r}
+next_fortnight <- date1 + ddays(14)
+previous_decade <- date2 - dyears(10)
+next_fortnight
+previous_decade
+```
+```{r}
+today()
+```
+
+```{r}
+this_year <- today()
+interval_years <- interval(this_year, previous_decade)
+this_year
+interval_years
+```
+
+```{r}
+date1
+date2
+```
+
+```{r}
+nyc_date1 <- with_tz(date1, tz = "America/New_York")
+nyc_date1
+nyc_date2 <- with_tz(date2, tz = "America/New_York")
+nyc_date2
+```
+
+```{r}
+library(nycflights13)
+```
+Use the flights data from the nycflights13 dataset. Make a date-time column called departure_date from the year, month, day, hour, and minute variables in the flights tibble.
+```{r}
+flights %>%
+  select(year, month, day, hour, minute) %>%
+  mutate(departure_date = make_datetime(year, month, day, hour,minute))
+  
+```
+#TIME SERIES
+```{r}
+library(tsibble)
+```
+
+```{r}
+weather
+```
+index = time_hour
+key = 
+
+
+
+```{r}
+weather %>%
+  select(temp, humid,precip)
+```
+description: precipitation hits only after the temperature goes beyond 44.06 and humidity beyond 93.40. Temperaturte might be a bit low but if humidity is high it will rain.
+
+```{r}
+ggplot(weather) +
+  geom_line(aes(x = precip, y = temp), colour = "blue")
+         
+```
+
+```{r}
+library(tsibble)
+library(tsibbledata)
+library(lubridate)
+```
+
+```{r}
+head(weather)
+```
+```{r}
+weather %>%
+  select(-time_hour)
+```
+
+
+#9
+```{r}
+temp_roll <- weather %>%
+  group_by(origin) %>%
+  mutate(temp_ma = slide_dbl(temp, ~ mean(., na.rm = TRUE),
+                                         .size = 1000))
+ggplot(temp_roll) + 
+  geom_line(aes(x = origin, y = temp), colour = "grey") + 
+    geom_line(aes(x = origin, y = temp_ma), colour = "red")
+  
+  
+```
+
