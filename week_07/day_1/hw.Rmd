@@ -19,7 +19,7 @@ library(nycflights13)
 date1 <- ymd_hms("2017-04-22 22:01:18")
 date2 <- ymd_hms("2001-11-07 10:09:56")
 ```
-#Extract the different components (year, month, mday, yday, wday) from the variable date1. Add the labels to the month and do not abbreviate the month labels.
+
 ```{r}
 date1
 date2
@@ -38,7 +38,7 @@ wday("2017-04-22 22:01:18 UTC")
 
 month(ymd("2017-04-22"), label = TRUE, abbr = FALSE)
 ```
-Add 14 days to your date1 variable and store it in a variable called next_fortnight. Take away 10 years from your date2 variable, and store it in previous_decade.
+
 ```{r}
 next_fortnight <- date1 + ddays(14)
 previous_decade <- date2 - dyears(10)
@@ -71,14 +71,14 @@ nyc_date2
 ```{r}
 library(nycflights13)
 ```
-Use the flights data from the nycflights13 dataset. Make a date-time column called departure_date from the year, month, day, hour, and minute variables in the flights tibble.
+
 ```{r}
 flights %>%
   select(year, month, day, hour, minute) %>%
   mutate(departure_date = make_datetime(year, month, day, hour,minute))
   
 ```
-#TIME SERIES
+
 ```{r}
 library(tsibble)
 ```
@@ -118,7 +118,7 @@ weather %>%
 ```
 
 
-#9
+
 ```{r}
 temp_roll <- weather %>%
   group_by(origin) %>%
