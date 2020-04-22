@@ -1,0 +1,93 @@
+
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(lubridate)
+library(tsibble)
+library(tsibbledata)
+library(fable)
+```
+
+```{r}
+nyc <- nyc_bikes
+nyc
+```
+```{r}
+library(lubridate)
+```
+
+```{r}
+dim(nyc)
+```
+
+
+
+```{r}
+names(nyc)
+```
+
+
+```{r}
+head(nyc,3)
+```
+```{r}
+nyc_year <- nyc %>%
+  select(-gender, -birth_year, -type) %>%
+  mutate(year_of_use = year(start_time),
+         month_of_use = month(start_time),
+         date_of_use = date(start_time)
+         
+         )
+head(nyc_year,3)
+```
+
+
+#ques2
+
+
+```{r}
+nyc_month_summ <- nyc %>%
+  index_by(month_of_use) %>%
+  summarise(bike_hire_count = n())
+
+ggplot(nyc_month_summ) +
+  aes(x = month_of_use, y = bike_hire_count) +
+  geom_point() +
+  geom_line() +
+  ggtitle("Bike hire in NYC") +
+  xlab("Month") + ylab("total count")
+
+           
+```
+
+
+# Question 2  
+
+
+```{r}
+nyc_month <- nyc %>%
+index_by(month_of_use) %>%
+  summarise(bike_hire_counts = n())
+
+ggplot(nyc_month) +
+  aes(x = month_of_use, y = bike_hire_counts) +
+  geom_point() +
+  geom_line(group = 1) 
+  
+```
+
+
+# Question 3  
+
+```{r}
+nyc_bikes_year <- nyc %>%
+  select(bike_id,date) %>%
+  index_by(date) %>%
+  summarise(count = count(bike_id))
+```
+
+
+
+# Question 4 
+
+
