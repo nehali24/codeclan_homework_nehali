@@ -146,6 +146,23 @@ pc.lm
 ```
 
 ```{r}
+plot(pc.lm)
+```
+
+```{r}
+summary(pc.lm)
+```
+
+y-response = price
+x-predictor = carat, x, y, z
+
+
+```{r}
+pc.lm_log <- lm(log(price) ~ log(carat), data = diam)
+pc.lm_log
+```
+
+```{r}
 
 ```
 
