@@ -1,0 +1,130 @@
+---
+title: "w10_d1_hw"
+author: "nehali"
+date: "12/05/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+proj <- read.csv("data/project_management.csv")
+proj
+```
+x - estimated length- inde
+y - actual length- dep
+```{r}
+plot <- proj %>%
+  ggplot(aes(x = estimated_length, y = actual_length)) +
+  geom_point()
+plot
+```
+
+
+```{r}
+plot <- plot +
+  geom_text(aes(label = 1:nrow(proj)), nudge_x = 0.2, nudge_y = 1)
+plot
+```
+
+
+
+Outliers: 5, 18, 5 is influential and 18 is non influential and has low leverage
+
+
+Regression
+```{r}
+model <- lm(actual_length ~ estimated_length, data = proj)
+model
+```
+
+```{r}
+library(ggfortify)
+autoplot(model, which = 4)
+```
+
+
+```{r}
+plot(model)
+```
+POINT 5 is an influential outlier, it lies above 1, point 18 is non influential outlier as it has cooks distance similar to other points.
+
+
+
+Omitting one of the non-influential outliers points
+```{r}
+omit_18 <- proj %>%
+slice(-18)
+omit_18_model <- lm(actual_length ~ estimated_length, data = omit_18)
+omit_18_model
+```
+1.591-1.416 = 0.175
+
+intercept differ by 0.175, estimated length differ by 0.002
+
+
+
+```{r}
+library(modelr)
+proj <- proj %>%
+  add_predictions(model, var = "full_model_pred") %>%
+  add_predictions(omit_18_model, var = "omit_18_model_pred")
+
+proj %>%
+  ggplot(aes(x = estimated_length) )+
+           geom_point(aes(y = actual_length)) +
+           geom_line(aes(y = full_model_pred), col = "blue") +
+           geom_line(aes(y = omit_18_model_pred), col = "red")  
+```
+omitting one of your influential outliers.
+
+```{r}
+omit_5 <- proj %>%
+  slice(-5)
+omit_5_model <- lm(actual_length ~ estimated_length, data = omit_5)
+omit_5_model
+```
+diff in intercept - 4.381 - 1.416 = 2.965
+diff in coeff - 1.221  - 1.011 = 0.21
+
+```{r}
+proj <- proj %>%
+  add_predictions(model, var = "full_model_pred") %>%
+  add_predictions(omit_5_model, var = "omit_5_model_pred")
+
+proj %>%
+  ggplot(aes(x = estimated_length) )+
+           geom_point(aes(y = actual_length)) +
+           geom_line(aes(y = full_model_pred), col = "blue") +
+           geom_line(aes(y = omit_5_model_pred), col = "red") 
+```
+diff in intercept is 2.965, diff in coeffi is 0.21
+```{r}
+autoplot(model)
+```
+
+Residual vs fitted shows slight downward trend, with increase in fitted val, but it is not very significant. Normal QQ plot indicates that all residulas are normally distributed, but their are two outliers. In scale-location slight U shape, but no systematic increase or decrease is shown with inc in fitted val.
+
+
+
+
+
+
+
+
+```{r}
+plot_1 <- plot(model) +
+  geom_text(aes(label = 1:nrow(project)))
+  
+```
+
+```{r}
+fitted(model)
+```
+
+```{r}
+
+```
+

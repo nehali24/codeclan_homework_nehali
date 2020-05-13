@@ -1,0 +1,151 @@
+---
+title: "day2 hw"
+author: "nehali"
+date: "12/05/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+diam <- read.csv("diamonds.csv")
+diam
+```
+
+```{r}
+glimpse(diam)
+```
+
+```{r}
+summary(diam)
+```
+
+```{r}
+diam_trim  <- diam %>%
+  select(-c("X", "cut", "color", "clarity", "depth", "table", "price"))
+```
+
+```{r}
+plot(diam_trim)
+```
+
+```{r}
+ggpairs <- ggpairs(diam_trim)
+ggpairs
+```
+
+
+
+response = price
+predictor = carat, x, y, z
+
+```{r}
+  diam_car <- diam %>%
+select(-c("X", "cut", "clarity", "depth", "table", "price", "x", "y", "z", "color"))
+diam_car
+  
+```
+
+```{r}
+diam_x <- diam %>%
+  select(-c("X", "cut", "clarity", "depth", "table", "price", "carat", "y", "z", "color"))
+diam_x
+```
+
+```{r}
+diam_y <- diam %>%
+  select(-c("X", "cut", "clarity", "depth", "table", "price", "carat", "x", "z", "color"))
+diam_y
+```
+```{r}
+diam_z <- diam %>%
+  select(-c("X", "cut", "clarity", "depth", "table", "price", "carat", "x", "y", "color"))
+diam_z
+```
+
+
+
+y-response = price
+x-predictor = carat, x, y, z
+
+```{r}
+diam %>%
+  ggplot(aes(x = carat, y = price)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+diam %>%
+  ggplot(aes(x = x, y = price)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+diam %>%
+  ggplot(aes(x = y, y = price)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+diam %>%
+  ggplot(aes(x = z, y = price)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
+
+
+x-predictor = carat, x, y, z
+
+```{r}
+diam %>%
+  distinct()
+```
+
+```{r}
+diam_dummy_1 <- diam %>%
+  fastDummies::dummy_cols(select_columns = "carat", remove_first_dummy = TRUE)
+diam_dummy_1
+```
+
+```{r}
+diam_dummy_2 <- diam %>%
+  fastDummies::dummy_cols(select_columns = "x", remove_first_dummy = TRUE)
+diam_dummy_2
+```
+
+```{r}
+diam_dummy_3 <- diam %>%
+  fastDummies::dummy_cols(select_columns = "y", remove_first_dummy = TRUE)
+diam_dummy_3
+```
+
+#6
+
+```{r}
+diam %>%
+  
+ggplot(aes(x = price, y = carat)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+```{r}
+par(mfrow = c(2,2))
+plot(diam)
+```
+
+```{r}
+pc.lm <- lm(price ~ carat, data = diam)
+pc.lm
+```
+
+```{r}
+
+```
+
