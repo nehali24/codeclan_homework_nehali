@@ -1,0 +1,59 @@
+---
+title: "w10_d3_hw"
+author: "nehali"
+date: "13/05/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(modelr)
+library(ggiraphExtra)
+library(GGally)
+```
+
+```{r}
+house <- read.csv("kc_house_data.csv")
+house
+```
+
+```{r}
+house_trim <- house %>%
+  drop_na() %>%
+  select(-date, -id, -sqft_living15, -sqft_lot15, -zipcode )
+house_trim
+```
+
+```{r}
+house_tidy_numeric <- house_trim %>%
+  select_if(is.numeric)
+
+house_tidy_nonnumeric <- house_trim %>%
+  select_if(function(x) !is.numeric(x))
+
+house_tidy_nonnumeric$price <- house_trim$price
+
+ggpairs(house_tidy_numeric)
+ggpairs(house_tidy_nonnumeric)
+```
+
+```{r}
+mod_1a <- lm(price ~ waterfront, data = house_trim)
+mod_1a
+```
+1 unit of water front increase price by 1130312
+```{r}
+summary(mod_1a)
+```
+R SQUARE IS 0.07095, low, only 7 % variance is based on waterfront.
+
+
+```{r}
+  par(mfrow = c(2,2))
+      plot(mod_1a)
+```
+
