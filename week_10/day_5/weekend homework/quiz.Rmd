@@ -1,0 +1,31 @@
+---
+title: "homework quiz"
+author: "nehali"
+date: "17/05/2020"
+output: html_document
+---
+ques1: Overfitting
+ques2: AIC with 33559, lower is AIC better the model.
+ques 3: Adjusted R^2 with value 0.43 is better choice
+ques4 : RMSE error on test set: 10.3
+ques5: k-fold validation: In this tech technique we split our data into k number of parts, we then make a model k times, each time we hold out 1 of the k folds , we train our data on other 4 folds, we have 1 test fold and k-1 train folds.This process is repeated each time until all folds are tested. Once the process is finished we can average the error across all test folds. Hence we get an accurate measure of model performance.
+
+ques6:- Validation set: This is a set of data used neither in training or to compare models against each other. It should give you a final estimate of the expected performance of the model. It should be used only once you are finished selecting the model.It is used while you are carrying out a complex model building process, particularly if you are comparing several types of models.
+
+ques7: Backward Selection: ->Start with the model containing all possible predictors (the so-called ‘full’ model)
+->At each step, check all predictors in the model, and find the one that lowers r2 the least when it is removed
+->Remove this predictor from the model
+->Keep note of the number of predictors in the model and the current model formula
+->Go on to remove another predictor, or stop if all predictors in the model have been removed
+
+
+ques 8: Subset Selection: 
+We can use Best Subset Selection: 
+
+At each size of model, search all possible combinations of predictors for the best model (i.e. the model with highest r2) of that size.
+
+The effort of this algorithm increases exponentially with the number of predictors.
+
+ques 9 : It is estimated on 5% of model projects end up being deployed. What actions can you take to maximise the likelihood of your model being deployed?
+
+Ans: 

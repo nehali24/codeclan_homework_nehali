@@ -22,11 +22,30 @@ house
 ```
 
 ```{r}
-house_trim <- house %>%
+house_tidy <- house %>%
   drop_na() %>%
-  select(-date, -id, -sqft_living15, -sqft_lot15, -zipcode )
-house_trim
+  select(-c("date", "id", "sqft_living15", "sqft_lot15", "zipcode")) %>%
+  mutate(waterfront = as.logical(waterfront)) %>%
+  mutate(renovated = yr_renovated != 0) %>%
+  select(-"yr_renovated") %>%
+  mutate(condition = as.factor(condition)) %>%
+  mutate(grade = as_factor(grade))
+glimpse(house_tidy)
 ```
+check for alias
+
+```{r}
+alias(price ~ ., data = house_tidy)
+```
+
+
+```{r}
+
+```
+
+
+
+
 
 ```{r}
 house_tidy_numeric <- house_trim %>%

@@ -109,11 +109,6 @@ Residual vs fitted shows slight downward trend, with increase in fitted val, but
 
 
 
-
-
-
-
-
 ```{r}
 plot_1 <- plot(model) +
   geom_text(aes(label = 1:nrow(project)))
@@ -124,7 +119,5 @@ plot_1 <- plot(model) +
 fitted(model)
 ```
 
-```{r}
 
-```
 

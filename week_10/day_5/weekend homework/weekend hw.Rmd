@@ -1,0 +1,62 @@
+---
+title: "weekend hw"
+author: "nehali"
+date: "17/05/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(modelr)
+library(ggiraphExtra)
+library(GGally)
+library(leaps)
+library(glmulti)
+```
+
+```{r}
+avacados <- read.csv("data/avocado.csv")
+avacados
+```
+```{r}
+avacados_trim <- avacados %>%
+  drop_na() %>%
+  select(-c("Total.Volume", "X4046", "X4225", "X4770", "year", "region", "type", "Large.Bags", "Small.Bags", "Total.Bags"))
+```
+```{r}
+avacados_trim
+```
+
+
+
+
+```{r}
+model_overfit <- lm(AveragePrice ~ ., data = avacados)
+model_overfit
+```
+
+```{r}
+model_fit <- lm(AveragePrice ~ Total.Volume, data = avacados)
+model_fit
+```
+
+```{r}
+summary(model_fit)
+```
+avg price ~ total volume
+R^2 is 0.0375
+
+
+```{r}
+model_fit_2 <- lm(AveragePrice ~ region, data = avacados)
+model_fit_2
+```
+
+```{r}
+summary(model_fit_2)
+```
+avg price ~ region
+R^2 : 0.1681
+
+
+
